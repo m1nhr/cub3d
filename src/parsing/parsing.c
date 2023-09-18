@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marecarrayan <marecarrayan@student.42.f    +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/18 00:42:38 by marecarraya      ###   ########.fr       */
+/*   Updated: 2023/09/18 19:53:08 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,44 @@ void	print_tab(char **tab)
 	}
 }
 
+int	is_not_valid_char(char c)
+{
+	if (c == ' ' || c == '\n' || c == '0' || c == '1')
+		return (0);
+	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
+		return (0);
+	printf("Error: map has invalid char: '%c'\n", c);
+	return (1);
+}
+
+int	check_char(char **map)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	while (map[i])
+	{
+		j = 0;
+		while (map[i][j])
+		{
+			if (is_not_valid_char(map[i][j]))
+				return (-1);
+			j++;
+		}
+		i++;
+	}
+}
+
+int	check_map(t_parse_map *parse)
+{
+	if (check_char(parse->map) == -1)
+		return (-1);
+}
 int	init_map(t_parse_map *parser, char *map_name)
 {
 	char	**map;
+
 	parser->fd = open(map_name, O_RDONLY);
 	if (open < 0)
 	{
@@ -103,9 +138,13 @@ int	init_map(t_parse_map *parser, char *map_name)
 	parser->map_parse = map_to_tab(parser->fd);
 	if (parser->map_parse == NULL)
 		return (-1);
-	//parser->map = &(parser->map_parse[0]);
-	//print_tab(map);
-	print_tab(parser->map_parse);
+	parser->map = &(parser->map_parse[6]);
+	if (!check_map(parser));
+		return (-1);
+	// map = &(parser->map[6]);
+	// print_tab(map);
+	
+	print_tab(parser->map);
 	return (0);
 }
 
@@ -114,6 +153,7 @@ int	init_data(t_main *data, char *map_name)
 	init_values(data);
 	if (init_map(data->parse_map, map_name) == -1)
 		return (-1);
+	
 	return (0);
 }
 
