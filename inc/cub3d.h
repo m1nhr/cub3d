@@ -2,6 +2,7 @@
 # define CUB3D_H
 
 # include "./libft/libft.h"
+# include "./minilibx-linux/mlx.h"
 # include "../src/get_next_line/get_next_line.h"
 # include <fcntl.h>
 # include <stdio.h>
@@ -41,6 +42,27 @@ typedef struct s_main
 	t_textures	textures;
 }	t_main;
 
+	typedef struct s_image
+{
+	void	*img;
+	char	*data_addr;
+	int		bpp;
+	int		line_size;
+	int		endian;
+}			t_image;
+
+
+typedef struct s_cub
+{
+	char		**map;
+	void		*mlx;
+	void		*win;
+	t_image		*img;
+	t_main		*data;
+	t_colors	colors;
+	t_textures	textures;
+}	t_cub;
+
 /*PARSING DIRECTORY*/
 int		check_format(char *s);
 int		check_args(int argc, char *av[]);
@@ -54,5 +76,6 @@ void	free_tab(char **tab);
 void	print_tab(char **tab);
 int		longest_len(char **map);
 
+void    go_cub(t_main *data);
 
 #endif

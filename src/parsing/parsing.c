@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/20 19:12:23 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/09/21 00:13:29 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int check_args(int argc, char *av[])
+int	check_args(int argc, char *av[])
 {
 	int	fd;
-	
+
 	if (argc == 1 || argc > 2)
 		return (printf("Error: Invalid number of arguments\n"));
 	if (!check_format(av[1]))
