@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marecarrayan <marecarrayan@student.42.f    +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/05 17:16:28 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/09/17 23:32:26 by marecarraya      ###   ########.fr       */
+/*   Updated: 2023/09/20 15:59:32 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_callocgnl(size_t nmemb, size_t size)
 	return (tab);
 }
 
-size_t	ft_strlengnl(const char *s)
+size_t	ft_lengnl(const char *s)
 {
 	size_t	i;
 
@@ -54,7 +54,7 @@ char	*ft_strjoingnl(char *str, char *buf)
 		str = ft_callocgnl(1, sizeof(char));
 	str[0] = '\0';
 	}
-	dest = ft_callocgnl((ft_strlengnl(str) + ft_strlengnl(buf) + 1), sizeof(char));
+	dest = ft_callocgnl((ft_lengnl(str) + ft_lengnl(buf) + 1), sizeof(char));
 	if (!dest)
 		return (NULL);
 	while (str[i])

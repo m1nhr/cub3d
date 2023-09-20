@@ -1,24 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/17 19:24:48 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/20 18:21:38 by rmarecar         ###   ########.fr       */
+/*   Created: 2023/09/19 18:00:37 by rmarecar          #+#    #+#             */
+/*   Updated: 2023/09/20 15:58:40 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int main(int argc, char *argv[])
+void	print_tab(char **tab)
 {
-	t_main	data;
+	int	i;
 
-	if (parsing(argc, argv, &data) == -1)
-		return (0);
-	free_tab(data.parse_map->map_parse);
-	free(data.parse_map);
-	return (0);
+	i = 0;
+	while (tab[i])
+	{
+		printf("%s\n", tab[i]);
+		i++;
+	}
+}
+
+int		longest_len(char **map)
+{
+	long unsigned int	len;
+	int					i;
+
+	i = 0;
+	len = ft_strlen(map[i]);
+	while (map[i])
+	{
+		if (ft_strlen(map[i]) > len)
+		len = ft_strlen(map[i]);
+		i++;
+	}
+	return (len);
 }

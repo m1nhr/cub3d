@@ -1,6 +1,6 @@
 NAME		=	cub3d
 CC			=	gcc
-FLAGS		=	
+FLAGS		=	-Wall -Wextra -Werror -g
 
 LIBFT_PATH	=	./inc/libft/
 LIBFT_FILE	=	libft.a

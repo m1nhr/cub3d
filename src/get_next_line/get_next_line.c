@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marecarrayan <marecarrayan@student.42.f    +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 17:12:34 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/09/17 23:33:53 by marecarraya      ###   ########.fr       */
+/*   Updated: 2023/09/20 15:59:46 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	*left_line(char *str)
 		free(str);
 		return (NULL);
 	}
-	dest = ft_callocgnl((ft_strlengnl(str) - i + 1), sizeof(char));
+	dest = ft_callocgnl((ft_lengnl(str) - i + 1), sizeof(char));
 	if (!dest)
 		return (NULL);
 	i++;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: marecarrayan <marecarrayan@student.42.f    +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/30 18:06:49 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/09/17 23:31:54 by marecarraya      ###   ########.fr       */
+/*   Updated: 2023/09/20 15:59:03 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 # endif
 
 char	*get_next_line(int fd);
-size_t	ft_strlengnl(const char *s);
+size_t	ft_lengnl(const char *s);
 char	*ft_strjoingnl(char *s1, char *s2);
 char	*ft_callocgnl(size_t count, size_t size);
 
