@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/21 08:14:27 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/21 08:29:28 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,18 +78,20 @@ void	init_value(t_cub *cub)
 }
  */
 
-void	put_x10(t_cub *cub, int x, int y, int color, int ok)
+void	put_x10(t_cub *cub, int x, int y, int color)
 {
 	int tmpx;
 	int tabsize;
+	int ok;
 	
 	tabsize = 0;
 	while (cub->map[tabsize])
 		tabsize++;
-	while (y <= tabsize * 8)
+	while (y <= tabsize * 7)
 	{
 		tmpx = x;
-		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 8)
+		ok = 0;
+		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 7)
 		{
 			put_pixel(cub, tmpx, y, color);
 			tmpx++;
@@ -117,13 +119,16 @@ void	display_minimap(t_cub *cub)
 		while ((size_t)i < ft_strlen(cub->map[y_tab]))
 		{
 			if (cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x000000, y_tab);
-			else
-				put_x10(cub, x, y, 0x13C6A2, y_tab);
-			x += 8;
+				put_x10(cub, x, y, 0x000000);
+			else if (cub->map[y_tab][i] == 'N' || cub->map[y_tab][i] == 'S'
+				|| cub->map[y_tab][i] == 'E' || cub->map[y_tab][i] == 'W')
+				put_x10(cub, x, y, 0xFF0000);
+			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
+				put_x10(cub, x, y, 0x13C6A2);
+			x += 7;
 			i++;
 		}
-		y += 8;
+		y += 7;
 		y_tab++;
 	} 
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
@@ -137,7 +142,7 @@ void	display_win(t_cub *cub, int height, int wight)
 	{
 		x = 0;
 		while (x < wight)
-			put_pixel(cub, x++, y, 0xFFFF00);
+			put_pixel(cub, x++, y, 0xA1A1A1);
 		y++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
