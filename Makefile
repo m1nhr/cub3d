@@ -33,7 +33,7 @@ mlx:
 $(NAME): lib mlx $(OBJ)
 		@echo "\nCOMPILING CUB3D...\n"
 		$(CC) $(FLAGS) $(OBJ) $(LIBFLAGS) $(MLX_LIB) $(LIBFT_LIB) -I$(INC_DIR) -o $(NAME)
-
+		@echo "$(NAME) created\n"
 clean:
 		@make clean -sC $(LIBFT_PATH)
 		@make clean -sC $(MLX_PATH)

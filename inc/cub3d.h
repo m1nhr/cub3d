@@ -57,6 +57,16 @@ typedef struct s_cub
 	char		**map;
 	void		*mlx;
 	void		*win;
+
+	double		posX;
+	double		posY;	//vecteur de position du joueur
+	double		dirX;
+	double		dirY;	// direction du joueur
+	double		planeX;
+	double		planeY;	// plan de la cam du joueur
+	double		time;
+	double		oldtime; // pour les fps
+
 	t_image		*img;
 	t_main		*data;
 	t_colors	colors;
