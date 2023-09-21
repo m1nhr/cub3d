@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/21 02:47:00 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/21 08:14:27 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,26 @@ int	close_window(t_cub *cub)
 	free (cub->data);
 	exit (1);
 	return (0);
+}
+
+void	put_pixel(t_cub *cub, int x, int y, int color)
+{
+	char	*dest;
+
+	dest = cub->img->data_addr + (y * cub->img->line_size)
+		+ x * (cub->img->bpp / 8);
+	*(unsigned int *)dest = color;
+}
+
+void	img_init(t_cub *cub)
+{
+	cub->img = malloc(sizeof(t_image));
+	if (!cub->img)
+		exit(1);
+	cub->img->img = mlx_new_image(cub->mlx, 750, 750);
+	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
+			&(cub->img->line_size),
+			&(cub->img->endian));
 }
 
 /*Quelques premières variables sont déclarées : 
@@ -51,6 +71,78 @@ void	init_value(t_cub *cub)
 	cub->oldtime = 0; //time of previous frame
 }
 
+/* void	display_win(t_cub *cub)
+{
+	int i = 0;
+	while 
+}
+ */
+
+void	put_x10(t_cub *cub, int x, int y, int color, int ok)
+{
+	int tmpx;
+	int tabsize;
+	
+	tabsize = 0;
+	while (cub->map[tabsize])
+		tabsize++;
+	while (y <= tabsize * 8)
+	{
+		tmpx = x;
+		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 8)
+		{
+			put_pixel(cub, tmpx, y, color);
+			tmpx++;
+		}
+		y++;
+	}
+}
+
+void	display_minimap(t_cub *cub)
+{
+ 	int x;
+	int y;
+	int lentab = 0;
+	int y_tab;
+	int i;
+
+	y = 0;
+	y_tab = 0;
+	while (cub->map[lentab])
+		lentab++;
+	while (y_tab < lentab)
+	{
+		x = 0;
+		i = 0;
+		while ((size_t)i < ft_strlen(cub->map[y_tab]))
+		{
+			if (cub->map[y_tab][i] == '1')
+				put_x10(cub, x, y, 0x000000, y_tab);
+			else
+				put_x10(cub, x, y, 0x13C6A2, y_tab);
+			x += 8;
+			i++;
+		}
+		y += 8;
+		y_tab++;
+	} 
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
+}
+
+void	display_win(t_cub *cub, int height, int wight)
+{
+	int x;
+	int y = 0;
+	while (y < height)
+	{
+		x = 0;
+		while (x < wight)
+			put_pixel(cub, x++, y, 0xFFFF00);
+		y++;
+	}
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
+}
+
 void    init_cub(t_main *data, t_cub *cub)
 {
 	cub->map = data->map;
@@ -63,11 +155,20 @@ void    init_cub(t_main *data, t_cub *cub)
 	if (!cub->win)
 		exit (1);
 	init_value(cub);
+	img_init(cub);
 //	img_init(data); 
 //	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
 //	mlx_mouse_hook(data->win, &ctrl_mouse, data);
 	mlx_hook(cub->win, 17, 1L << 17, &close_window, data);
-	//display_win(cub);
+	int i =0;
+	while (cub->map[i])
+	{
+		fprintf(stderr, "%s = %d\n", cub->map[i], i);
+		i++;
+	}
+	
+	display_win(cub, 750, 750);
+	display_minimap(cub);
 	mlx_loop(cub->mlx);
 }
 
