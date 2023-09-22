@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/21 08:29:28 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/22 04:03:10 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,30 +24,9 @@ int	close_window(t_cub *cub)
 	return (0);
 }
 
-void	put_pixel(t_cub *cub, int x, int y, int color)
-{
-	char	*dest;
-
-	dest = cub->img->data_addr + (y * cub->img->line_size)
-		+ x * (cub->img->bpp / 8);
-	*(unsigned int *)dest = color;
-}
-
-void	img_init(t_cub *cub)
-{
-	cub->img = malloc(sizeof(t_image));
-	if (!cub->img)
-		exit(1);
-	cub->img->img = mlx_new_image(cub->mlx, 750, 750);
-	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
-			&(cub->img->line_size),
-			&(cub->img->endian));
-}
-
-/*Quelques premières variables sont déclarées : 
-posX et posY représentent le vecteur position du joueur, 
-dirX et dirY représentent la direction du joueur, et planeX 
-et planY le plan de la caméra du joueur. 
+/*
+dirX et dirY représentent la direction du joueur, 
+et planeX et planY le plan de la caméra du joueur. 
 Assurez-vous que le plan de la caméra est perpendiculaire 
 à la direction, mais vous pouvez en modifier la longueur. 
 Le rapport entre la longueur de la direction et le plan de la 
@@ -59,10 +38,37 @@ pour un jeu de tir à la première personne).
 Plus tard, lors d'une rotation avec les touches de saisie, 
 les valeurs de dir et plane seront modifiées, mais elles 
 resteront toujours perpendiculaires et garderont la même longueur.*/
+
+double	get_start_pos(t_cub *cub, int ok)
+{
+	int	x;
+	int	y;
+
+	y = 0;
+	while (cub->map[y])
+	{
+		x = 0;
+		while (cub->map[y][x])
+		{
+			if (cub->map[y][x] == 'N' || cub->map[y][x] == 'S'
+				|| cub->map[y][x] == 'E' || cub->map[y][x] == 'W')
+			{
+				if (ok)
+					return (x);
+				else
+					return (y);
+			}
+			x++;
+		}
+		y++;
+	}
+	return (0);
+}
+
 void	init_value(t_cub *cub)
 {
-	cub->posX = 22;
-	cub->posY = 12;	// position de depart x et y;
+	cub->posX = get_start_pos(cub, 1);
+	cub->posY = get_start_pos(cub, 0);	// position de depart x et y;
 	cub->dirX = -1;
 	cub->dirY = 0; 	// vexteur de direction initial
 	cub->planeX = 0;
@@ -71,27 +77,20 @@ void	init_value(t_cub *cub)
 	cub->oldtime = 0; //time of previous frame
 }
 
-/* void	display_win(t_cub *cub)
-{
-	int i = 0;
-	while 
-}
- */
-
 void	put_x10(t_cub *cub, int x, int y, int color)
 {
 	int tmpx;
 	int tabsize;
 	int ok;
-	
+
 	tabsize = 0;
 	while (cub->map[tabsize])
 		tabsize++;
-	while (y <= tabsize * 7)
+	while (y <= tabsize * 6)
 	{
 		tmpx = x;
 		ok = 0;
-		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 7)
+		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 6)
 		{
 			put_pixel(cub, tmpx, y, color);
 			tmpx++;
@@ -100,18 +99,27 @@ void	put_x10(t_cub *cub, int x, int y, int color)
 	}
 }
 
+int	what_lentab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	while (tab[i])
+		i++;
+	return (i);
+}
+
 void	display_minimap(t_cub *cub)
 {
  	int x;
 	int y;
-	int lentab = 0;
+	int lentab;
 	int y_tab;
 	int i;
 
 	y = 0;
 	y_tab = 0;
-	while (cub->map[lentab])
-		lentab++;
+	lentab = what_lentab(cub->map);
 	while (y_tab < lentab)
 	{
 		x = 0;
@@ -125,12 +133,12 @@ void	display_minimap(t_cub *cub)
 				put_x10(cub, x, y, 0xFF0000);
 			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
 				put_x10(cub, x, y, 0x13C6A2);
-			x += 7;
+			x += 6;
 			i++;
 		}
-		y += 7;
+		y += 6;
 		y_tab++;
-	} 
+	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
@@ -171,7 +179,7 @@ void    init_cub(t_main *data, t_cub *cub)
 		fprintf(stderr, "%s = %d\n", cub->map[i], i);
 		i++;
 	}
-	
+	fprintf(stderr, "start pos = [%f][%f]\n", cub->posX, cub->posY);
 	display_win(cub, 750, 750);
 	display_minimap(cub);
 	mlx_loop(cub->mlx);

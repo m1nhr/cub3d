@@ -88,4 +88,7 @@ int		longest_len(char **map);
 
 void    go_cub(t_main *data);
 
+void	put_pixel(t_cub *cub, int x, int y, int color);
+void	img_init(t_cub *cub);
+
 #endif
