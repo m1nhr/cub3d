@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/21 00:13:29 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:06:23 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	find_map_start(char *str)
 	}
 	if (j != 6)
 	{
-		printf("\nmissing information %d\n", j); 
+		printf("\nError: missing information\n"); 
 		exit (1);
 	}
 	while (str[i] && str[i] != '\n')
@@ -213,25 +213,115 @@ int	init_map(t_parse_map *parser, char *map_name)
 	return (0);
 }
 
-// void	get_textures()
-// int	init_textures(t_main *data, char **map)
-// {
-// 	int	i;
-// 	int	j;
+int	get_textures(t_main *data, char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (!ft_strncmp(&str[i], "NO ", 3))
+	{
+		i += 3;
+		while (str[i] == ' ')
+			i++;
+		data->textures.NO = &str[i];
+		return (1);
+	}
+	else if (!ft_strncmp(&str[i], "SO ", 3))
+	{
+		i += 3;
+		while (str[i] == ' ')
+			i++;
+		data->textures.SO = &str[i];
+		return (1);
+	}
+	else if (!ft_strncmp(&str[i], "EA ", 3))
+	{
+		i += 3;
+		while (str[i] == ' ')
+			i++;
+		data->textures.EA = &str[i];
+		return (1);
+	}
+	else if (!ft_strncmp(&str[i], "WE ", 3))
+	{
+		i += 3;
+		while (str[i] == ' ')
+			i++;
+		data->textures.WE = &str[i];
+		return (1);
+	}
+	else
+		return (0);
+}
 
-// 	i = 0;
-// 	while (map[i])
-// 	{
-// 		j = 0;
-// 		while (map[i][j])
-// 		{
-// 			while (map[i][j] == ' ' || map[i][j] == '\n')
-// 				j++;
-			
-// 			j++;
-// 		}
-// 	}
-// }
+int	get_colors(t_main *data, char *str)
+{
+	int		i;
+	char	**tab;
+
+	i = 0;
+	while (str[i] == ' ' || str[i] == '\t')
+		i++;
+	if (!strncmp(&str[i], "C ", 2))
+	{
+		i += 2;
+		tab = ft_split(&str[i], ',');
+		data->colors_ceiling.red = ft_atoi(tab[0]);
+		data->colors_ceiling.green = ft_atoi(tab[1]);
+		data->colors_ceiling.blue = ft_atoi(tab[2]);
+		free_tab(tab);
+		return (1);
+	}
+	if (!strncmp(&str[i], "F ", 2))
+	{
+		i += 2;
+		tab = ft_split(&str[i], ',');
+		data->colors_floor.red = ft_atoi(tab[0]);
+		data->colors_floor.green = ft_atoi(tab[1]);
+		data->colors_floor.blue = ft_atoi(tab[2]);
+		free_tab(tab);
+		return (1);
+	}
+	return (0);
+}
+
+void	print_map_info(t_main *data)
+{
+	printf("NO : %s\n", data->textures.NO);
+	printf("SO : %s\n", data->textures.SO);
+	printf("WE : %s\n", data->textures.WE);
+	printf("EA : %s\n", data->textures.EA);
+	printf("C : %d, %d, %d\n", data->colors_ceiling.red, data->colors_ceiling.green,data->colors_ceiling.blue);
+	printf("C : %d, %d, %d\n", data->colors_floor.red, data->colors_floor.green,data->colors_floor.blue);
+}
+int	init_textures(t_main *data, char **map)
+{
+	int	i;
+
+	i = 0;
+	while (i < 4)
+	{
+		if (!get_textures(data, map[i]))
+		{
+			printf("Error: invalid textures\n%s\n", map[i]);
+			return (0);
+		}
+		i++;
+	}
+	while (i < 6)
+	{
+		if (!get_colors(data, map[i]))
+		{
+			printf("Error: invalid colors\n%s\n", map[i]);
+			return (0);
+		}
+		i++;
+	}
+	print_map_info(data);
+	return (1);
+}
 
 int	init_data(t_main *data, char *map_name)
 {
@@ -243,7 +333,12 @@ int	init_data(t_main *data, char *map_name)
 		return (-1);
 	}
 	data->map = data->parse_map->map;
-	// init_textures(data, data->parse_map->map_parse);
+	if (!init_textures(data, data->parse_map->map_parse))
+	{
+		free_tab(data->parse_map->map_parse);
+		free(data->parse_map);
+		return (-1);
+	}
 	return (0);
 }
 

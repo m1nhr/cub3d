@@ -38,7 +38,8 @@ typedef struct s_main
 {
 	char		**map;
 	t_parse_map	*parse_map;
-	t_colors	colors;
+	t_colors	colors_floor;
+	t_colors	colors_ceiling;
 	t_textures	textures;
 }	t_main;
 
