@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/22 04:03:10 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:11:07 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,7 +159,8 @@ void	display_win(t_cub *cub, int height, int wight)
 void    init_cub(t_main *data, t_cub *cub)
 {
 	cub->map = data->map;
-	cub->colors = data->colors;
+	cub->colors_ceiling = data->colors_ceiling;
+	cub->colors_floor = data->colors_floor;
 	cub->textures = data->textures;
 	cub->mlx = mlx_init();
 	if (!cub->mlx)

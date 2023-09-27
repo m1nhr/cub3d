@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/27 18:06:23 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:14:34 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -319,7 +319,6 @@ int	init_textures(t_main *data, char **map)
 		}
 		i++;
 	}
-	print_map_info(data);
 	return (1);
 }
 
@@ -363,6 +362,8 @@ int parsing(int argc, char *argv[], t_main *data)
 		return (-1);
 	if (init_data(data, argv[1]) == -1)
 		return (-1);
+	print_map_info(data);
+
 	return (0);
 }
 

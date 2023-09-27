@@ -70,7 +70,8 @@ typedef struct s_cub
 
 	t_image		*img;
 	t_main		*data;
-	t_colors	colors;
+	t_colors	colors_ceiling;
+	t_colors	colors_floor;
 	t_textures	textures;
 }	t_cub;
 
