@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/09/27 18:14:34 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/09/27 18:26:47 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ int	find_map_start(char *str)
 int	check_map_str(char *str)
 {
 	int	i;
+	int	j;
 
+	j = 0;
 	i = find_map_start(str);
 	while (str[i])
 	{
@@ -82,6 +84,13 @@ int	check_map_str(char *str)
 		}
 		if (is_not_valid_char(str[i]))
 			return (-1);
+		if (ft_isalpha(str[i]))
+			j++;
+		if (j > 1)
+		{
+			printf("Error: two starting positions\n");
+			return (-1);
+		}
 		i++;
 	}
 	return (0);
