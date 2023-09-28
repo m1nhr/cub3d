@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/28 11:35:47 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/28 11:46:46 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -318,7 +318,7 @@ void    go_cub(t_main *data)
 	}
 	fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
 	display_background(&cub);
-	display_game_frame(&cub);
+//	display_game_frame(&cub);
 	display_minimap(&cub, "NESW", what_lentab(cub.map), 0);
 	mlx_loop(cub.mlx);
 }
