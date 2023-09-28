@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/27 18:11:07 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/09/28 07:00:05 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,22 +41,22 @@ resteront toujours perpendiculaires et garderont la même longueur.*/
 
 double	get_start_pos(t_cub *cub, int ok)
 {
-	int	x;
-	int	y;
+	double	x;
+	double	y;
+	char	*finder;
 
+	finder = "NESW";
 	y = 0;
-	while (cub->map[y])
+	while (cub->map[(int)y])
 	{
 		x = 0;
-		while (cub->map[y][x])
+		while (cub->map[(int)y][(int)x])
 		{
-			if (cub->map[y][x] == 'N' || cub->map[y][x] == 'S'
-				|| cub->map[y][x] == 'E' || cub->map[y][x] == 'W')
+			if (ft_strchr(finder, cub->map[(int)y][(int)x]))
 			{
 				if (ok)
 					return (x);
-				else
-					return (y);
+				return (y);
 			}
 			x++;
 		}
@@ -65,17 +65,51 @@ double	get_start_pos(t_cub *cub, int ok)
 	return (0);
 }
 
-void	init_value(t_cub *cub)
+void	init_value(t_cub *cub, t_main *data)
 {
-	cub->posX = get_start_pos(cub, 1);
-	cub->posY = get_start_pos(cub, 0);	// position de depart x et y;
-	cub->dirX = -1;
-	cub->dirY = 0; 	// vexteur de direction initial
-	cub->planeX = 0;
-	cub->planeY = 0.66; // version RC 2d du plan de la cam
+	cub->map = data->map;
+	cub->colors_ceiling = data->colors_ceiling;
+	cub->colors_floor = data->colors_floor;
+	cub->textures = data->textures;
+	cub->posx = get_start_pos(cub, 1);
+	cub->posy = get_start_pos(cub, 0);
+	//vexteur de direction
+	cub->dirx = -1; // (commence à -1 pour N, 1 pour S, 0 sinon)
+	cub->diry = 0; 	// (commence à -1 pour W, 1 pour E, 0 sinon)
+	//vecteur du plan
+	cub->planex = 0; // (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
+	cub->planey = 0.66; // (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
+	
+/*	cub->raydirx; //calcul de direction x du rayon	
+	cub->raydiry; //calcul de direction y du rayon
+	cub->mapx;// coordonée x du carré dans lequel est pos
+	cub->mapy;// coordonnée y du carré dans lequel est pos
+	//distance
+	cub->sidedistx;//distance que le rayon parcours jusqu'au 
+					//premier point d'intersection vertical (=un coté x)
+	cub->sidedisty;//distance que le rayon parcours jusqu'au
+					// premier point d'intersection horizontal (= un coté y)
+	cub->deltadistx;//distance que rayon parcours entre chaque point d'intersection vertical
+	cub->deltadisty; //distance que rayon parcours entre chaque point d'intersection horizontal
+	cub->stepx;// -1 si doit sauter un carre dans direction x negative, 1 dans la direction x positive
+	cub->stepx; // -1 si doit sauter un carre dans la direction y negative, 1 dans la direction y positive
+	cub->hit; // 1 si un mur a ete touche, 0 sinon
+	cub->side; // 0 si c'est un cote x qui est touche (vertical), 1 si un cote y (horizontal)
+	cub->dist_to_wall; // distance du joueur au mur
+	cub->draw_start; //position de debut ou il faut dessiner
+	cub->draw_end; //position de fin ou il faut dessiner
+*/
 	cub->time = 0; // time of current frame
 	cub->oldtime = 0; //time of previous frame
 }
+
+/* a voir plus tard
+typedef struct	s_ray
+{
+	double		camerax; //point x sur la plan camera : Gauche ecran = -1, milieu = 0, droite = 1
+	int		x; //permet de parcourir tous les rayons
+}					t_ray;
+*/
 
 void	put_x10(t_cub *cub, int x, int y, int color)
 {
@@ -109,13 +143,13 @@ int	what_lentab(char **tab)
 	return (i);
 }
 
-void	display_minimap(t_cub *cub)
+void	display_minimap(t_cub *cub, char *finder)
 {
- 	int x;
-	int y;
-	int lentab;
-	int y_tab;
-	int i;
+	int	x;
+	int	y;
+	int	lentab;
+	int	y_tab;
+	int	i;
 
 	y = 0;
 	y_tab = 0;
@@ -128,8 +162,7 @@ void	display_minimap(t_cub *cub)
 		{
 			if (cub->map[y_tab][i] == '1')
 				put_x10(cub, x, y, 0x000000);
-			else if (cub->map[y_tab][i] == 'N' || cub->map[y_tab][i] == 'S'
-				|| cub->map[y_tab][i] == 'E' || cub->map[y_tab][i] == 'W')
+			else if (ft_strchr(finder, cub->map[y_tab][i]))
 				put_x10(cub, x, y, 0xFF0000);
 			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
 				put_x10(cub, x, y, 0x13C6A2);
@@ -142,54 +175,61 @@ void	display_minimap(t_cub *cub)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
-void	display_win(t_cub *cub, int height, int wight)
+//		A MODIF PAR cub->colors_ceiling mais voir pour RGB to hex
+void	display_background(t_cub *cub)
 {
-	int x;
-	int y = 0;
-	while (y < height)
+	int	x;
+	int	y;
+
+	y = 0;
+	while (y < HEIGHT / 2)
 	{
 		x = 0;
-		while (x < wight)
-			put_pixel(cub, x++, y, 0xA1A1A1);
+		while (x < WIGHT)
+		{
+			put_pixel(cub, x, y, 0x000080);
+			x++;
+		}
+		y++;
+	}
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIGHT)
+		{
+			put_pixel(cub, x, y, 0x808080);
+			x++;
+		}
 		y++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
-void    init_cub(t_main *data, t_cub *cub)
-{
-	cub->map = data->map;
-	cub->colors_ceiling = data->colors_ceiling;
-	cub->colors_floor = data->colors_floor;
-	cub->textures = data->textures;
-	cub->mlx = mlx_init();
-	if (!cub->mlx)
-		exit (1);
-	cub->win = mlx_new_window(cub->mlx, 750, 750, "CUB3D");
-	if (!cub->win)
-		exit (1);
-	init_value(cub);
-	img_init(cub);
-//	img_init(data); 
-//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
-//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
-	mlx_hook(cub->win, 17, 1L << 17, &close_window, data);
-	int i =0;
-	while (cub->map[i])
-	{
-		fprintf(stderr, "%s = %d\n", cub->map[i], i);
-		i++;
-	}
-	fprintf(stderr, "start pos = [%f][%f]\n", cub->posX, cub->posY);
-	display_win(cub, 750, 750);
-	display_minimap(cub);
-	mlx_loop(cub->mlx);
-}
 
 void    go_cub(t_main *data)
 {
-    t_cub cub;
-    
-    init_cub(data, &cub);
-    
+	t_cub cub;
+	
+	init_value(&cub, data);
+	cub.mlx = mlx_init();
+	if (!cub.mlx)
+		exit (1);
+	cub.win = mlx_new_window(cub.mlx, 750, 750, "CUB3D");
+	if (!cub.win)
+		exit (1);
+	img_init(&cub);
+//	img_init(data); 
+//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
+//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
+	mlx_hook(cub.win, 17, 1L << 17, &close_window, data);
+	int i =0;
+	while (cub.map[i])
+	{
+		fprintf(stderr, "%s = %d\n", cub.map[i], i);
+		i++;
+	}
+	fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
+	display_background(&cub);
+	display_minimap(&cub, "NESW");
+	mlx_loop(cub.mlx);
 }
