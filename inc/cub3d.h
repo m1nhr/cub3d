@@ -9,6 +9,8 @@
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <unistd.h>
+#include <math.h>
+
 
 # define HEIGHT 750
 # define WIGHT 750
@@ -81,6 +83,7 @@ typedef struct s_cub
 	double		dist_to_wall;
 	int			draw_start;
 	int			draw_end;
+	double		camerax;
 	double		time;
 	double 		oldtime; // pour les fps
 	t_image		*img;
@@ -103,9 +106,14 @@ void			free_tab(char **tab);
 void			print_tab(char **tab);
 int				longest_len(char **map);
 
-void			go_cub(t_main *data);
 
+//main cub
+void			go_cub(t_main *data);
+// img
 void			put_pixel(t_cub *cub, int x, int y, int color);
 void			img_init(t_cub *cub);
+// utils
+int	what_lentab(char **tab);
+double	get_start_pos(t_cub *cub, int ok);
 
 #endif
