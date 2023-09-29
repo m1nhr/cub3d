@@ -109,6 +109,10 @@ int				longest_len(char **map);
 
 //main cub
 void			go_cub(t_main *data);
+//init
+void	init_value(t_cub *cub, t_main *data);
+double	start_pos(char **tab, int ok);
+
 // img
 void			put_pixel(t_cub *cub, int x, int y, int color);
 void			img_init(t_cub *cub);

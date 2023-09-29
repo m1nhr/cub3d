@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 03:21:01 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/28 07:33:33 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/29 08:49:49 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	img_init(t_cub *cub)
 	cub->img = malloc(sizeof(t_image));
 	if (!cub->img)
 		exit(1);
-	cub->img->img = mlx_new_image(cub->mlx, 750, 750);
+	cub->img->img = mlx_new_image(cub->mlx, HEIGHT, WIGHT);
 	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
 			&(cub->img->line_size),
 			&(cub->img->endian));
