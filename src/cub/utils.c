@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 07:31:46 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/28 07:32:20 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/29 03:09:10 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ double	get_start_pos(t_cub *cub, int ok)
 
 	finder = "NESW";
 	y = 0;
+
 	while (cub->map[(int)y])
 	{
 		x = 0;

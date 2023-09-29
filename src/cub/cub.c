@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/28 11:46:46 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/09/29 07:03:27 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,58 @@ void	raydir_calcul(t_cub *cub)
 	}
 }
 
+double	find_playerx(char **tab)
+{
+	double	y;
+	double	x;
+	char	*finder;
+
+	x = 6;
+	finder = "NESW";
+	while (tab[(int)x])
+	{	
+		y = 0;
+		while (tab[(int)x][(int)y])
+		{
+			if (ft_strchr(finder, tab[(int)x][(int)y]))
+				return (x);
+			y++;
+		}
+		x++;
+	}
+	return (0);
+}
+
+double	find_playery(char **tab)
+{
+	double	y;
+	double	x;
+	char	*finder;
+
+	x = 6;
+	finder = "NESW";
+	while (tab[(int)x])
+	{	
+		y = 0;
+		while (tab[(int)x][(int)y])
+		{
+			if (ft_strchr(finder, tab[(int)x][(int)y]))
+				return (y);
+			y++;
+		}
+		x++;
+	}
+	return (0);
+}
+
 void	init_value(t_cub *cub, t_main *data)
 {
 	cub->map = data->map;
 	cub->colors_ceiling = data->colors_ceiling;
 	cub->colors_floor = data->colors_floor;
 	cub->textures = data->textures;
-	cub->posx = get_start_pos(cub, 1);
-	cub->posy = get_start_pos(cub, 0);
+	cub->posx = find_playerx(cub->map);
+	cub->posy = find_playery(cub->map);
 	//vexteur de direction
 	cub->dirx = -1; // (commence à -1 pour N, 1 pour S, 0 sinon)
 	cub->diry = 0; 	// (commence à -1 pour W, 1 pour E, 0 sinon)
@@ -71,10 +115,7 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->planex = 0; // (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
 	cub->planey = 0.66; // (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
 	
-	cub->mapx = (int)cub->posx;// coordonée x du carré dans lequel est pos
-	cub->mapy = (int)cub->posy;// coordonnée y du carré dans lequel est pos
-	fprintf(stderr, "%d/%d\n", cub->mapx, cub->mapy);
-	cub->hit = 0;
+
 /*	cub->raydirx; //calcul de direction x du rayon	
 	cub->raydiry; //calcul de direction y du rayon
 double	raydir_calcul(t_cub *cub);
@@ -156,29 +197,45 @@ void	display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
+float	ft_fabs(float i)
+{
+	if (i < 0)
+		return (i *= -1);
+	return (i);
+}
+/*
+	while (all->algo->x < SCREENWIDTH)
+	{
+		ray_dir_cam_init(all->algo);
+		ray_side_init(all->algo);
+		wall_hit(all->data, all->algo);
+		draw_wall(all->algo);
+		draw_on_screen(all, all->algo, all->img, all->mlx);
+		all->algo->x += 1;
+	}*/
 void	display_game_frame(t_cub *cub)
 {
 	int x = 0;
+	
 
     while (x < WIGHT)
 	{
 		//calculate ray position and direction
-		cub->camerax = 2 * x / WIGHT - 1; //x-coordinate in camera space
+		cub->camerax = 2 * x / (double)WIGHT - 1.34; //x-coordinate in camera space
 		cub->raydirx = cub->dirx + cub->planex * cub->camerax;
 		cub->raydiry = cub->diry + cub->planey * cub->camerax;
 		
 		
 		if (cub->raydirx != 0)
-			cub->deltadistx = fabs(1 / cub->raydirx);
+			cub->deltadistx = ft_fabs(1 / cub->raydirx);
 		else 
 			cub->deltadistx = 1e30;
-			
 		if (cub->raydiry != 0)
-			cub->deltadisty = fabs(1 / cub->raydiry);
+			cub->deltadisty = ft_fabs(1 / cub->raydiry);
 		else
 			cub->deltadisty = 1e30;
-		
-		
+
+//ray side
 		if (cub->raydirx < 0)
 		{
 			cub->stepx = -1;
@@ -187,7 +244,7 @@ void	display_game_frame(t_cub *cub)
 		else
 		{
 			cub->stepx = 1;
-			cub->sidedistx = (cub->mapx + 1.0 - cub->posx) * cub->deltadistx;
+			cub->sidedistx = (cub->mapx + 1 - cub->posx) * cub->deltadistx;
 		}
 		if (cub->raydiry < 0)
 		{
@@ -197,12 +254,17 @@ void	display_game_frame(t_cub *cub)
 		else
 		{
 			cub->stepy = 1;
-			cub->sidedisty = (cub->mapy + 1.0 - cub->posy) * cub->deltadisty;
+			cub->sidedisty = (cub->mapy + 1 - cub->posy) * cub->deltadisty;
 		}
+		
 		cub->hit = 0;
+		cub->mapx = (int)cub->posx;
+		cub->mapy = (int)cub->posy;
+		fprintf(stderr, "check [x=%d][y=%d]\n", cub->mapx, cub->mapy);
 		 //jump to next map square, either in x-direction, or in y-direction
 		while (cub->hit == 0)
 		{
+			
 			if (cub->sidedistx < cub->sidedisty)
 			{
 				cub->sidedistx += cub->deltadistx;
@@ -211,14 +273,17 @@ void	display_game_frame(t_cub *cub)
 			}
 			else
 			{
-				cub->sidedisty += cub->sidedisty;
+				cub->sidedisty += cub->deltadisty;
 				cub->mapy += cub->stepy;
 				cub->side = 1;
 			}
+			
 			if (cub->map[cub->mapx][cub->mapy] == '1')
 			{
+				fprintf(stderr, "ca passe char %c\n",cub->map[cub->mapy][cub->mapx]);
 				cub->hit = 1;
 			}
+			
 		}
 		
 		if (cub->side == 0)
@@ -244,16 +309,11 @@ void	display_game_frame(t_cub *cub)
 		fprintf(stderr, "[start : %d][end : %d] (for x = %d)\n", cub->draw_start, cub->draw_end, x);
 	//	fprintf(stderr, "[rayx : %f][rayyy : %f] (for x = %d)\n", cub->raydirx, cub->raydiry, x);
 		int y = cub->draw_start;
-		if (y > 0 && y < HEIGHT)
+		while (y <= cub->draw_end && y >= cub->draw_start)
 		{
-			while (y < cub->draw_end)
-			{
-				put_pixel(cub, x, y, color);
-				y++;
-			}
-			
+			put_pixel(cub, x, y, color);
+			y++;
 		}
-		
 		x++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
@@ -317,8 +377,8 @@ void    go_cub(t_main *data)
 		i++;
 	}
 	fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
-	display_background(&cub);
-//	display_game_frame(&cub);
-	display_minimap(&cub, "NESW", what_lentab(cub.map), 0);
+	//display_background(&cub);
+	display_game_frame(&cub);
+//	display_minimap(&cub, "NESW", what_lentab(cub.map), 0);
 	mlx_loop(cub.mlx);
 }
