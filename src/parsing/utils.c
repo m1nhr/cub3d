@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/19 18:00:37 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/09/20 15:58:40 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/03 17:03:59 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	print_tab(char **tab)
 	}
 }
 
-int		longest_len(char **map)
+int	longest_len(char **map)
 {
 	long unsigned int	len;
 	int					i;
@@ -38,4 +38,32 @@ int		longest_len(char **map)
 		i++;
 	}
 	return (len);
+}
+
+void	free_tab(char **tab)
+{
+	int	i;
+
+	i = 0;
+	if (tab == NULL)
+		return ;
+	while (tab[i])
+	{
+		free(tab[i]);
+		i++;
+	}
+	free(tab);
+}
+
+void	add_space(char *str, int size)
+{
+	int	i;
+
+	i = 0;
+	while (i < size)
+	{
+		str[i] = ' ';
+		i++;
+	}
+	str[i] = '\0';
 }

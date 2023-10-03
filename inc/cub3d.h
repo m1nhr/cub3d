@@ -94,6 +94,7 @@ typedef struct s_cub
 }				t_cub;
 
 /*PARSING DIRECTORY*/
+
 int				check_format(char *s);
 int				check_args(int argc, char *av[]);
 int				parsing(int argc, char *argv[], t_main *data);
@@ -105,6 +106,16 @@ int				is_not_valid_char(char c);
 void			free_tab(char **tab);
 void			print_tab(char **tab);
 int				longest_len(char **map);
+
+void			check_colors(t_main *data, t_colors colors);
+void			check_colors_str(t_main *data, char **tab);
+int				get_colors(t_main *data, char *str);
+
+void			add_space(char *str, int size);
+int				check_map_str(char *str);
+int				get_textures(t_main *data, char *str);
+int				init_textures(t_main *data, char **map);
+int				init_map(t_parse_map *parser, char *map_name);
 
 
 //main cub
