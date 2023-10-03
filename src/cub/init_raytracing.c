@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raytracing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/29 08:36:14 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/03 18:19:17 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ double	start_pos(char **tab, int ok)
 
 void	init_value(t_cub *cub, t_main *data)
 {
+	cub->data = data;
 	cub->map = data->map;
 	cub->colors_ceiling = data->colors_ceiling;
 	cub->colors_floor = data->colors_floor;

@@ -3,28 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/09/29 08:38:08 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/03 18:40:07 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int	close_window(t_cub *cub)
+int close_window(t_cub *cub)
 {
 	ft_putendl_fd("goodbye :)", 1);
 	mlx_destroy_image(cub->mlx, cub->img->img);
 	mlx_destroy_window(cub->mlx, cub->win);
 	mlx_destroy_display(cub->mlx);
-	free (cub->img);
-	free (cub->data);
-	exit (1);
+	free(cub->img);
+	free(cub->data);
+	exit(1);
 	return (0);
 }
 
-void	put_x10(t_cub *cub, int x, int y, int color)
+void put_x10(t_cub *cub, int x, int y, int color)
 {
 	int tmpx;
 	int tabsize;
@@ -46,11 +46,11 @@ void	put_x10(t_cub *cub, int x, int y, int color)
 	}
 }
 
-void	display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
+void display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
 {
-	int	x;
-	int	y;
-	int	i;
+	int x;
+	int y;
+	int i;
 
 	y = 0;
 	while (y_tab < lentab)
@@ -74,38 +74,37 @@ void	display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
-float	ft_fabs(float i)
+float ft_fabs(float i)
 {
 	if (i < 0)
 		return (i *= -1);
 	return (i);
 }
 
-void	display_game_frame(t_cub *cub)
+void display_game_frame(t_cub *cub)
 {
 	int x = 0;
 	int y;
 	int lineheight;
 	int color;
-	
-    while (x < WIGHT)
+
+	while (x < WIGHT)
 	{
-		//calculate ray position and direction
+		// calculate ray position and direction
 		cub->camerax = 2 * x / (double)WIGHT - 1;
 		cub->raydirx = cub->dirx + cub->planex * cub->camerax;
 		cub->raydiry = cub->diry + cub->planey * cub->camerax;
-		
-		
+
 		if (cub->raydirx != 0)
 			cub->deltadistx = ft_fabs(1 / cub->raydirx);
-		else 
+		else
 			cub->deltadistx = 1e30;
 		if (cub->raydiry != 0)
 			cub->deltadisty = ft_fabs(1 / cub->raydiry);
 		else
 			cub->deltadisty = 1e30;
 
-//ray side
+		// ray side
 		if (cub->raydirx < 0)
 		{
 			cub->stepx = -1;
@@ -130,8 +129,8 @@ void	display_game_frame(t_cub *cub)
 		cub->hit = 0;
 		cub->mapx = (int)cub->posx;
 		cub->mapy = (int)cub->posy;
-		
-		 //jump to next map square, either in x-direction, or in y-direction
+
+		// jump to next map square, either in x-direction, or in y-direction
 		while (cub->hit == 0)
 		{
 			if (cub->sidedistx < cub->sidedisty)
@@ -150,16 +149,15 @@ void	display_game_frame(t_cub *cub)
 			if (cub->map[cub->mapx][cub->mapy] == '1')
 				cub->hit = 1;
 		}
-		
+
 		if (cub->side == 0)
 			cub->dist_to_wall = (cub->sidedistx - cub->deltadistx);
 		else
 			cub->dist_to_wall = (cub->sidedisty - cub->deltadisty);
-		
 
 		// calcul de la hauteur de la ligne a display
 		lineheight = (int)(HEIGHT / cub->dist_to_wall);
-		
+
 		// calcul de start et end d'une colonne de pixel
 		cub->draw_start = -lineheight / 2 + HEIGHT / 2;
 		if (cub->draw_start < 0)
@@ -167,7 +165,7 @@ void	display_game_frame(t_cub *cub)
 		cub->draw_end = lineheight / 2 + HEIGHT / 2;
 		if (cub->draw_end >= HEIGHT)
 			cub->draw_end = HEIGHT - 1;
-//draw
+		// draw
 		color = 0xFFFF00;
 		if (cub->side == 1)
 			color = color / 2;
@@ -181,14 +179,13 @@ void	display_game_frame(t_cub *cub)
 		x++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
-
 }
 
 //		A MODIF PAR cub->colors_ceiling mais voir pour RGB to hex
-void	display_background(t_cub *cub)
+void display_background(t_cub *cub)
 {
-	int	x;
-	int	y;
+	int x;
+	int y;
 	double fade;
 
 	fade = 1;
@@ -217,24 +214,55 @@ void	display_background(t_cub *cub)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
 }
 
+int key_press_exit(int keycode, t_cub *cub)
+{
+	if (keycode == XK_Escape)
+	{
+		ft_putendl_fd("goodbye :)", 1);
+		mlx_destroy_image(cub->mlx, cub->img->img);
+		mlx_destroy_window(cub->mlx, cub->win);
+		mlx_destroy_display(cub->mlx);
+		free(cub->img);
+		free(cub->mlx);
+		free_tab(cub->data->parse_map->map_parse);
+		free(cub->data->parse_map);
+		exit(0);
+	}
+	return (0);
+}
 
-void    go_cub(t_main *data)
+int	close_mouse(t_cub *cub)
+{
+	ft_putendl_fd("goodbye :)", 1);
+	mlx_destroy_image(cub->mlx, cub->img->img);
+	mlx_destroy_window(cub->mlx, cub->win);
+	mlx_destroy_display(cub->mlx);
+	free(cub->img);
+	free(cub->mlx);
+	free_tab(cub->data->parse_map->map_parse);
+	free(cub->data->parse_map);
+	exit(0);
+}
+
+void go_cub(t_main *data)
 {
 	t_cub cub;
-	
+
 	init_value(&cub, data);
 	cub.mlx = mlx_init();
 	if (!cub.mlx)
-		exit (1);
+		exit(1);
 	cub.win = mlx_new_window(cub.mlx, 750, 750, "CUB3D");
 	if (!cub.win)
-		exit (1);
+		exit(1);
 	img_init(&cub);
-//	img_init(data); 
-//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
-//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
+	//	img_init(data);
+	//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
+	//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
 	mlx_hook(cub.win, 17, 1L << 17, &close_window, data);
-	int i =0;
+	mlx_hook(cub.win, KeyPress, KeyPressMask, &key_press_exit, &cub); //close avec Esc
+	mlx_hook(cub.win, DestroyNotify, 0, &close_mouse, &cub); // close avec souris
+	int i = 0;
 	while (cub.map[i])
 	{
 		fprintf(stderr, "%s = %d\n", cub.map[i], i);

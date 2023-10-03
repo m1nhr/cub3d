@@ -10,7 +10,8 @@
 # include <sys/stat.h>
 # include <unistd.h>
 #include <math.h>
-
+# include <X11/X.h>
+# include <X11/keysym.h>
 
 # define HEIGHT 750
 # define WIGHT 750
