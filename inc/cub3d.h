@@ -67,12 +67,16 @@ typedef struct s_cub
 	double		posy;
 	double		dirx;
 	double		diry;
+
 	double		planex;
 	double		planey;
+
 	double		raydirx;
 	double		raydiry;
+
 	int			mapx;
 	int			mapy;
+	
 	double		sidedistx;
 	double		sidedisty;
 	double		deltadistx;

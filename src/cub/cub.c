@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/03 18:40:07 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/06 04:41:02 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ void display_game_frame(t_cub *cub)
 			cub->deltadisty = 1e30;
 
 		// ray side
+		cub->mapx = (int)cub->posx;
+		cub->mapy = (int)cub->posy;
 		if (cub->raydirx < 0)
 		{
 			cub->stepx = -1;
@@ -125,11 +127,7 @@ void display_game_frame(t_cub *cub)
 			cub->stepy = 1;
 			cub->sidedisty = (cub->mapy + 1 - cub->posy) * cub->deltadisty;
 		}
-
 		cub->hit = 0;
-		cub->mapx = (int)cub->posx;
-		cub->mapy = (int)cub->posy;
-
 		// jump to next map square, either in x-direction, or in y-direction
 		while (cub->hit == 0)
 		{
@@ -145,7 +143,7 @@ void display_game_frame(t_cub *cub)
 				cub->mapy += cub->stepy;
 				cub->side = 1;
 			}
-			fprintf(stderr, "check [x=%d][y=%d]\n", cub->mapx, cub->mapy);
+		//	fprintf(stderr, "check [x=%d][y=%d]\n", cub->mapx, cub->mapy);
 			if (cub->map[cub->mapx][cub->mapy] == '1')
 				cub->hit = 1;
 		}
@@ -169,7 +167,7 @@ void display_game_frame(t_cub *cub)
 		color = 0xFFFF00;
 		if (cub->side == 1)
 			color = color / 2;
-		fprintf(stderr, "[start : %d][end : %d] (for x = %d)\n", cub->draw_start, cub->draw_end, x);
+		//fprintf(stderr, "[start : %d][end : %d] (for x = %d)\n", cub->draw_start, cub->draw_end, x);
 		y = cub->draw_start;
 		while (y <= cub->draw_end && y >= cub->draw_start)
 		{
@@ -179,6 +177,7 @@ void display_game_frame(t_cub *cub)
 		x++;
 	}
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
+	fprintf(stderr, "OK finit une frame\n");
 }
 
 //		A MODIF PAR cub->colors_ceiling mais voir pour RGB to hex
@@ -244,6 +243,94 @@ int	close_mouse(t_cub *cub)
 	exit(0);
 }
 
+void	game_on(t_cub *cub)
+{
+	display_background(cub);
+	display_game_frame(cub);
+	display_minimap(cub, "NESW", what_lentab(cub->map), 0);
+}
+
+int	keymap_event(int key, t_cub *cub)
+{
+	if (key == XK_Escape)
+	{
+		ft_putendl_fd("goodbye :)", 1);
+		mlx_destroy_image(cub->mlx, cub->img->img);
+		mlx_destroy_window(cub->mlx, cub->win);
+		mlx_destroy_display(cub->mlx);
+		free(cub->img);
+		free(cub->mlx);
+		free_tab(cub->data->parse_map->map_parse);
+		free(cub->data->parse_map);
+		exit(0);
+	}
+	fprintf(stderr, "ok= {%d}\n", key);
+	if (key == 119 || key == 97 || key == 115 || key == 100) // wasd
+	{
+		double movespeed = 0.5;
+		double rotspeed = 0.5;
+		if (key == 119)
+		{
+			if (cub->map[(int)(cub->posx + cub->dirx * movespeed)][(int)(cub->posy)] == '0')
+				cub->posx += cub->dirx * movespeed;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->diry * movespeed)] == '0')
+				cub->posy += cub->diry * movespeed;
+		}
+		else if (key == 115)
+		{
+			if (cub->map[(int)(cub->posx - cub->dirx * movespeed)][(int)(cub->posy)] == '0')
+				cub->posx -= cub->dirx * movespeed;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->diry * movespeed)] == '0')
+				cub->posy -= cub->diry * movespeed;
+		}
+		else if (key == 100)
+		{
+			double olddirx = cub->dirx;
+			cub->dirx = cub->dirx * cos(-rotspeed) - cub->diry * sin(-rotspeed);
+			cub->diry = olddirx * sin(-rotspeed) + cub->diry * cos(-rotspeed);
+			double oldplanex = cub->planex;
+			cub->planex = cub->planex * cos(-rotspeed) - cub->planey * sin(-rotspeed);
+			cub->planey = oldplanex * sin(-rotspeed) + cub->planey * cos(-rotspeed);
+		}
+		else if (key == 97)
+		{
+			double olddirx = cub->dirx;
+			cub->dirx = cub->dirx * cos(rotspeed) - cub->diry * sin(rotspeed);
+			cub->diry = olddirx * sin(rotspeed) + cub->diry * cos(rotspeed);
+			double oldplanex = cub->planex;
+			cub->planex = cub->planex * cos(rotspeed) - cub->planey * sin(rotspeed);
+			cub->planey = oldplanex * sin(rotspeed) + cub->planey * cos(rotspeed);
+		}
+/*     //rotate to the right
+    if(keyDown(SDLK_RIGHT))
+    {
+      //both camera direction and camera plane must be rotated
+      double oldDirX = dirX;
+      dirX = dirX * cos(-rotSpeed) - dirY * sin(-rotSpeed);
+      dirY = oldDirX * sin(-rotSpeed) + dirY * cos(-rotSpeed);
+      double oldPlaneX = planeX;
+      planeX = planeX * cos(-rotSpeed) - planeY * sin(-rotSpeed);
+      planeY = oldPlaneX * sin(-rotSpeed) + planeY * cos(-rotSpeed);
+    }
+    //rotate to the left
+    if(keyDown(SDLK_LEFT))
+    {
+      //both camera direction and camera plane must be rotated
+      double oldDirX = dirX;
+      dirX = dirX * cos(rotSpeed) - dirY * sin(rotSpeed);
+      dirY = oldDirX * sin(rotSpeed) + dirY * cos(rotSpeed);
+      double oldPlaneX = planeX;
+      planeX = planeX * cos(rotSpeed) - planeY * sin(rotSpeed);
+      planeY = oldPlaneX * sin(rotSpeed) + planeY * cos(rotSpeed);
+    }
+		 */
+	}
+	game_on(cub);
+	return (0);
+}
+
+
+
 void go_cub(t_main *data)
 {
 	t_cub cub;
@@ -256,11 +343,10 @@ void go_cub(t_main *data)
 	if (!cub.win)
 		exit(1);
 	img_init(&cub);
-	//	img_init(data);
-	//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
-	//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
+	//mlx_hook(cub.win, 2, 1L << 0, &keymap, &cub);
 	mlx_hook(cub.win, 17, 1L << 17, &close_window, data);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, &key_press_exit, &cub); //close avec Esc
+	mlx_hook(cub.win, KeyPress, KeyPressMask, &keymap_event, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, &close_mouse, &cub); // close avec souris
 	int i = 0;
 	while (cub.map[i])
@@ -268,9 +354,7 @@ void go_cub(t_main *data)
 		fprintf(stderr, "%s = %d\n", cub.map[i], i);
 		i++;
 	}
-	fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
-	display_background(&cub);
-	display_game_frame(&cub);
-	display_minimap(&cub, "NESW", what_lentab(cub.map), 0);
+	//fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
+	game_on(&cub);
 	mlx_loop(cub.mlx);
 }
