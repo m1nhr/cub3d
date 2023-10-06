@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/06 05:03:08 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/06 07:19:57 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,29 @@ void	display_game_frame(t_cub *cub)
 		}
 		x++;
 	}
+/*   	x = 0;
+	y = 0;
+	int y_tab = 0;
+	int lentab = what_lentab(cub->map);
+	int i;
+	while (y_tab < lentab)
+	{
+		x = 0;
+		i = 0;
+		while ((size_t)i < ft_strlen(cub->map[y_tab]))
+		{
+			if (cub->map[y_tab][i] && cub->map[y_tab][i] == '1')
+				put_x10(cub, x, y, 0x000000);
+			if (ft_strchr("NSEW", cub->map[y_tab][i]))
+				put_x10(cub, x, y, 0xFF0000);
+			if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
+				put_x10(cub, x, y, 0x13C6A2);
+			x += 6;
+			i++;
+		}
+		y += 6;
+		y_tab++;
+	}  */
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	fprintf(stderr, "OK finit une frame\n");
 }
