@@ -133,9 +133,9 @@ double			start_pos(char **tab, int ok);
 //display
 void			display_game_frame(t_cub *cub);
 void			display_background(t_cub *cub);
-void			display_minimap(t_cub *cub, char *finder, int lentab,
-					int y_tab);
-// img
+void	display_minimap(t_cub *cub, int x, int y);
+
+// im
 void			put_pixel(t_cub *cub, int x, int y, int color);
 void			img_init(t_cub *cub);
 void			put_x10(t_cub *cub, int x, int y, int color);

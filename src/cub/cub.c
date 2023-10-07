@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/06 09:02:10 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 03:02:02 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int	keymap_event(int key, t_cub *cub )
 
 void	game_on(t_cub *cub)
 {
-	display_background(cub);
+//	display_background(cub);
 	display_game_frame(cub);
 //	display_minimap(cub, "NESW", what_lentab(cub->map), 0);
 }

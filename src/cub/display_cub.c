@@ -6,38 +6,41 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/06 07:19:57 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 03:06:16 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
+void	display_minimap(t_cub *cub, int x, int y)
 {
-	int	x;
-	int	y;
 	int	i;
+	int	y_tab;
+	int	lentab;
 
-	y = 0;
+	y_tab = 0;
+	lentab = what_lentab(cub->map);
 	while (y_tab < lentab)
 	{
-		x = 0;
 		i = 0;
+		x = 0;
 		while ((size_t)i < ft_strlen(cub->map[y_tab]))
 		{
-			if (cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x000000);
-			else if (ft_strchr(finder, cub->map[y_tab][i]))
+			if (i == (int)cub->posy && y_tab == (int)cub->posx)
 				put_x10(cub, x, y, 0xFF0000);
-			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
+			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i]
+				|| (y_tab == start_pos(cub->map, 0)
+					&& i == start_pos(cub->map, 1)))
 				put_x10(cub, x, y, 0x13C6A2);
+			else if (cub->map[y_tab][i] && cub->map[y_tab][i] == '1')
+				put_x10(cub, x, y, 0x000000);
 			x += 6;
 			i++;
 		}
 		y += 6;
 		y_tab++;
 	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
+	fprintf(stderr, "ok\n");
 }
 
 void	display_background(t_cub *cub)
@@ -69,7 +72,7 @@ void	display_background(t_cub *cub)
 		}
 		y++;
 	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
+	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 }
 
 void	display_game_frame(t_cub *cub)
@@ -147,37 +150,25 @@ void	display_game_frame(t_cub *cub)
 		color = 0xFFFF00;
 		if (cub->side == 1)
 			color = color / 2;
-		y = cub->draw_start;
+		y = 0;
+		while (y < cub->draw_start)
+		{
+			put_pixel(cub, x, y, 0x0000FF);
+			y++;
+		}
 		while (y <= cub->draw_end && y >= cub->draw_start)
 		{
 			put_pixel(cub, x, y, color);
 			y++;
 		}
+		while (y < HEIGHT)
+		{
+			put_pixel(cub, x, y, 0x808080);
+			y++;
+		}
 		x++;
 	}
-/*   	x = 0;
-	y = 0;
-	int y_tab = 0;
-	int lentab = what_lentab(cub->map);
-	int i;
-	while (y_tab < lentab)
-	{
-		x = 0;
-		i = 0;
-		while ((size_t)i < ft_strlen(cub->map[y_tab]))
-		{
-			if (cub->map[y_tab][i] && cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x000000);
-			if (ft_strchr("NSEW", cub->map[y_tab][i]))
-				put_x10(cub, x, y, 0xFF0000);
-			if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
-				put_x10(cub, x, y, 0x13C6A2);
-			x += 6;
-			i++;
-		}
-		y += 6;
-		y_tab++;
-	}  */
+	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	fprintf(stderr, "OK finit une frame\n");
 }
