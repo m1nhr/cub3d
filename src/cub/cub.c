@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 08:46:35 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 08:56:51 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void	user_movement(t_cub *cub, int key)
 	}
 	else if (key == cub->go_a->key)
 	{
-		if (((cub->dirx > -0.3 && cub->dirx < 0.3) && (cub->diry > 0.7
-					&& cub->diry < 1.3)) || ((cub->dirx > -0.3 && cub->dirx
-					< 0.3) && (cub->diry > -1.3 && cub->diry < -0.7)))
+		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > 0.5
+					&& cub->diry < 1.5)) || ((cub->dirx > -0.5 && cub->dirx
+					< 0.3) && (cub->diry > -1.5 && cub->diry < -0.5)))
 		{
 			if (cub->map[(int)(cub->posx - cub->diry
 					* m)][(int)(cub->posy)] != '1')
@@ -69,9 +69,9 @@ void	user_movement(t_cub *cub, int key)
 	}
 	else if (key == cub->go_d->key)
 	{
-		if (((cub->dirx > -0.3 && cub->dirx < 0.3) && (cub->diry > -1.3
-					&& cub->diry < -0.7)) || ((cub->dirx > -0.3 && cub->dirx
-					< 0.3) && (cub->diry > 0.7 && cub->diry < 1.3)))
+		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > -1.5
+					&& cub->diry < -0.5)) || ((cub->dirx > -0.5 && cub->dirx
+					< 0.5) && (cub->diry > 0.5 && cub->diry < 1.5)))
 		{
 			if (cub->map[(int)(cub->posx + cub->diry
 					* m)][(int)(cub->posy)] != '1')
