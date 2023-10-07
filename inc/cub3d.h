@@ -4,17 +4,19 @@
 # include "../src/get_next_line/get_next_line.h"
 # include "./libft/libft.h"
 # include "./minilibx-linux/mlx.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
 # include <fcntl.h>
+# include <math.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/stat.h>
 # include <unistd.h>
-#include <math.h>
-# include <X11/X.h>
-# include <X11/keysym.h>
 
 # define HEIGHT 750
 # define WIGHT 750
+# define TRUE 1
+# define FALSE 0
 
 typedef struct s_parse_map
 {
@@ -58,6 +60,16 @@ typedef struct s_image
 	int			endian;
 }				t_image;
 
+typedef struct s_bool
+{
+	int			key;
+	int			ok;
+}				t_bool;
+
+typedef struct s_move
+{
+}				t_move;
+
 typedef struct s_cub
 {
 	char		**map;
@@ -67,12 +79,16 @@ typedef struct s_cub
 	double		posy;
 	double		dirx;
 	double		diry;
+
 	double		planex;
 	double		planey;
+
 	double		raydirx;
 	double		raydiry;
+
 	int			mapx;
 	int			mapy;
+
 	double		sidedistx;
 	double		sidedisty;
 	double		deltadistx;
@@ -86,7 +102,14 @@ typedef struct s_cub
 	int			draw_end;
 	double		camerax;
 	double		time;
-	double 		oldtime; // pour les fps
+	double		oldtime;
+	t_bool		*move;
+	t_bool		*go_w;
+	t_bool		*go_s;
+	t_bool		*go_a;
+	t_bool		*go_d;
+	t_bool		*cam_right;
+	t_bool		*cam_left;
 	t_image		*img;
 	t_main		*data;
 	t_colors	colors_ceiling;
@@ -118,18 +141,28 @@ int				get_textures(t_main *data, char *str);
 int				init_textures(t_main *data, char **map);
 int				init_map(t_parse_map *parser, char *map_name);
 
-
 //main cub
 void			go_cub(t_main *data);
-//init
-void	init_value(t_cub *cub, t_main *data);
-double	start_pos(char **tab, int ok);
+int				game_on(t_cub *cub);
 
-// img
+//init
+void			init_value(t_cub *cub, t_main *data);
+double			start_pos(char **tab, int ok);
+
+//display
+int			display_game_frame(t_cub *cub);
+void			display_background(t_cub *cub);
+void			display_minimap(t_cub *cub, int x, int y);
+
+// im
 void			put_pixel(t_cub *cub, int x, int y, int color);
 void			img_init(t_cub *cub);
+void			put_x10(t_cub *cub, int x, int y, int color);
+void			keymap_event(t_cub *cub);
+
 // utils
-int	what_lentab(char **tab);
-double	get_start_pos(t_cub *cub, int ok);
+int				what_lentab(char **tab);
+double			get_start_pos(t_cub *cub, int ok);
+float			ft_fabs(float i);
 
 #endif

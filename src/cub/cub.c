@@ -3,235 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/03 18:40:07 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/07 08:56:51 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int close_window(t_cub *cub)
-{
-	ft_putendl_fd("goodbye :)", 1);
-	mlx_destroy_image(cub->mlx, cub->img->img);
-	mlx_destroy_window(cub->mlx, cub->win);
-	mlx_destroy_display(cub->mlx);
-	free(cub->img);
-	free(cub->data);
-	exit(1);
-	return (0);
-}
-
-void put_x10(t_cub *cub, int x, int y, int color)
-{
-	int tmpx;
-	int tabsize;
-	int ok;
-
-	tabsize = 0;
-	while (cub->map[tabsize])
-		tabsize++;
-	while (y <= tabsize * 6)
-	{
-		tmpx = x;
-		ok = 0;
-		while ((size_t)tmpx < (ft_strlen(cub->map[ok]) - 1) * 6)
-		{
-			put_pixel(cub, tmpx, y, color);
-			tmpx++;
-		}
-		y++;
-	}
-}
-
-void display_minimap(t_cub *cub, char *finder, int lentab, int y_tab)
-{
-	int x;
-	int y;
-	int i;
-
-	y = 0;
-	while (y_tab < lentab)
-	{
-		x = 0;
-		i = 0;
-		while ((size_t)i < ft_strlen(cub->map[y_tab]))
-		{
-			if (cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x000000);
-			else if (ft_strchr(finder, cub->map[y_tab][i]))
-				put_x10(cub, x, y, 0xFF0000);
-			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i])
-				put_x10(cub, x, y, 0x13C6A2);
-			x += 6;
-			i++;
-		}
-		y += 6;
-		y_tab++;
-	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
-}
-
-float ft_fabs(float i)
-{
-	if (i < 0)
-		return (i *= -1);
-	return (i);
-}
-
-void display_game_frame(t_cub *cub)
-{
-	int x = 0;
-	int y;
-	int lineheight;
-	int color;
-
-	while (x < WIGHT)
-	{
-		// calculate ray position and direction
-		cub->camerax = 2 * x / (double)WIGHT - 1;
-		cub->raydirx = cub->dirx + cub->planex * cub->camerax;
-		cub->raydiry = cub->diry + cub->planey * cub->camerax;
-
-		if (cub->raydirx != 0)
-			cub->deltadistx = ft_fabs(1 / cub->raydirx);
-		else
-			cub->deltadistx = 1e30;
-		if (cub->raydiry != 0)
-			cub->deltadisty = ft_fabs(1 / cub->raydiry);
-		else
-			cub->deltadisty = 1e30;
-
-		// ray side
-		if (cub->raydirx < 0)
-		{
-			cub->stepx = -1;
-			cub->sidedistx = (cub->posx - cub->mapx) * cub->deltadistx;
-		}
-		else
-		{
-			cub->stepx = 1;
-			cub->sidedistx = (cub->mapx + 1 - cub->posx) * cub->deltadistx;
-		}
-		if (cub->raydiry < 0)
-		{
-			cub->stepy = -1;
-			cub->sidedisty = (cub->posy - cub->mapy) * cub->deltadisty;
-		}
-		else
-		{
-			cub->stepy = 1;
-			cub->sidedisty = (cub->mapy + 1 - cub->posy) * cub->deltadisty;
-		}
-
-		cub->hit = 0;
-		cub->mapx = (int)cub->posx;
-		cub->mapy = (int)cub->posy;
-
-		// jump to next map square, either in x-direction, or in y-direction
-		while (cub->hit == 0)
-		{
-			if (cub->sidedistx < cub->sidedisty)
-			{
-				cub->sidedistx += cub->deltadistx;
-				cub->mapx += cub->stepx;
-				cub->side = 0;
-			}
-			else
-			{
-				cub->sidedisty += cub->deltadisty;
-				cub->mapy += cub->stepy;
-				cub->side = 1;
-			}
-			fprintf(stderr, "check [x=%d][y=%d]\n", cub->mapx, cub->mapy);
-			if (cub->map[cub->mapx][cub->mapy] == '1')
-				cub->hit = 1;
-		}
-
-		if (cub->side == 0)
-			cub->dist_to_wall = (cub->sidedistx - cub->deltadistx);
-		else
-			cub->dist_to_wall = (cub->sidedisty - cub->deltadisty);
-
-		// calcul de la hauteur de la ligne a display
-		lineheight = (int)(HEIGHT / cub->dist_to_wall);
-
-		// calcul de start et end d'une colonne de pixel
-		cub->draw_start = -lineheight / 2 + HEIGHT / 2;
-		if (cub->draw_start < 0)
-			cub->draw_start = 0;
-		cub->draw_end = lineheight / 2 + HEIGHT / 2;
-		if (cub->draw_end >= HEIGHT)
-			cub->draw_end = HEIGHT - 1;
-		// draw
-		color = 0xFFFF00;
-		if (cub->side == 1)
-			color = color / 2;
-		fprintf(stderr, "[start : %d][end : %d] (for x = %d)\n", cub->draw_start, cub->draw_end, x);
-		y = cub->draw_start;
-		while (y <= cub->draw_end && y >= cub->draw_start)
-		{
-			put_pixel(cub, x, y, color);
-			y++;
-		}
-		x++;
-	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
-}
-
-//		A MODIF PAR cub->colors_ceiling mais voir pour RGB to hex
-void display_background(t_cub *cub)
-{
-	int x;
-	int y;
-	double fade;
-
-	fade = 1;
-	y = 0;
-	while (y < HEIGHT / 2)
-	{
-		x = 0;
-		fade *= 1.0018;
-		while (x < WIGHT)
-		{
-			put_pixel(cub, x, y, 0x0000FF * fade);
-			x++;
-		}
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIGHT)
-		{
-			put_pixel(cub, x, y, 0x808080);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 2);
-}
-
-int key_press_exit(int keycode, t_cub *cub)
-{
-	if (keycode == XK_Escape)
-	{
-		ft_putendl_fd("goodbye :)", 1);
-		mlx_destroy_image(cub->mlx, cub->img->img);
-		mlx_destroy_window(cub->mlx, cub->win);
-		mlx_destroy_display(cub->mlx);
-		free(cub->img);
-		free(cub->mlx);
-		free_tab(cub->data->parse_map->map_parse);
-		free(cub->data->parse_map);
-		exit(0);
-	}
-	return (0);
-}
-
-int	close_mouse(t_cub *cub)
+int	close_window(t_cub *cub)
 {
 	ft_putendl_fd("goodbye :)", 1);
 	mlx_destroy_image(cub->mlx, cub->img->img);
@@ -244,9 +25,163 @@ int	close_mouse(t_cub *cub)
 	exit(0);
 }
 
-void go_cub(t_main *data)
+void	user_movement(t_cub *cub, int key)
 {
-	t_cub cub;
+	double	m;
+
+	m = 0.05;       // movespeed
+	if (key == cub->go_w->key)
+	{
+		if (cub->map[(int)(cub->posx + cub->dirx * m)][(int)(cub->posy)] != '1')
+			cub->posx += cub->dirx * m;
+		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->diry * m)] != '1')
+			cub->posy += cub->diry * m;
+	}
+	else if (key == cub->go_s->key)
+	{
+		if (cub->map[(int)(cub->posx - cub->dirx * m)][(int)(cub->posy)] != '1')
+			cub->posx -= cub->dirx * m;
+		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->diry * m)] != '1')
+			cub->posy -= cub->diry * m;
+	}
+	else if (key == cub->go_a->key)
+	{
+		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > 0.5
+					&& cub->diry < 1.5)) || ((cub->dirx > -0.5 && cub->dirx
+					< 0.3) && (cub->diry > -1.5 && cub->diry < -0.5)))
+		{
+			if (cub->map[(int)(cub->posx - cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx -= cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
+					* m)] != '1')
+				cub->posy -= cub->dirx * m;
+		}
+		else
+		{
+			if (cub->map[(int)(cub->posx + cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx += cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
+					* m)] != '1')
+				cub->posy += cub->dirx * m;
+		}
+	}
+	else if (key == cub->go_d->key)
+	{
+		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > -1.5
+					&& cub->diry < -0.5)) || ((cub->dirx > -0.5 && cub->dirx
+					< 0.5) && (cub->diry > 0.5 && cub->diry < 1.5)))
+		{
+			if (cub->map[(int)(cub->posx + cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx += cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
+					* m)] != '1')
+				cub->posy += cub->dirx * m;
+		}
+		else
+		{
+			if (cub->map[(int)(cub->posx - cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx -= cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
+					* m)] != '1')
+				cub->posy -= cub->dirx * m;
+		}
+	}
+}
+
+void	cam_movement(t_cub *cub, int key, double rt)
+{
+	double	olddirx;
+	double	oldplanex;
+
+	if (key == cub->cam_left->key)
+	{
+		olddirx = cub->dirx;
+		cub->dirx = cub->dirx * cos(-rt) - cub->diry * sin(-rt);
+		cub->diry = olddirx * sin(-rt) + cub->diry * cos(-rt);
+		oldplanex = cub->planex;
+		cub->planex = cub->planex * cos(-rt) - cub->planey * sin(-rt);
+		cub->planey = oldplanex * sin(-rt) + cub->planey * cos(-rt);
+	}
+	else if (key == cub->cam_right->key)
+	{
+		olddirx = cub->dirx;
+		cub->dirx = cub->dirx * cos(rt) - cub->diry * sin(rt);
+		cub->diry = olddirx * sin(rt) + cub->diry * cos(rt);
+		oldplanex = cub->planex;
+		cub->planex = cub->planex * cos(rt) - cub->planey * sin(rt);
+		cub->planey = oldplanex * sin(rt) + cub->planey * cos(rt);
+	}
+}
+
+int	game_on(t_cub *cub)
+{
+	display_game_frame(cub);
+	return (0);
+}
+
+void	keymap_event(t_cub *cub)
+{
+	if (cub->go_w->ok == TRUE)
+		user_movement(cub, 119);
+	if (cub->go_s->ok == TRUE)
+		user_movement(cub, 115);
+	if (cub->go_a->ok == TRUE)
+		user_movement(cub, 97);
+	if (cub->go_d->ok == TRUE)
+		user_movement(cub, 100);
+	if (cub->cam_left->ok == TRUE)
+		cam_movement(cub, 65363, 0.02);
+	if (cub->cam_right->ok == TRUE)
+		cam_movement(cub, 65361, 0.02);
+	return ;
+}
+
+int	key_press(int key, t_cub *cub)
+{
+	printf("presssssss\n");
+	if (key == XK_Escape)
+		close_window(cub);
+	if (key == 119)
+		cub->go_w->ok = TRUE;
+	if (key == 115)
+		cub->go_s->ok = TRUE;
+	if (key == 97)
+		cub->go_a->ok = TRUE;
+	if (key == 100)
+		cub->go_d->ok = TRUE;
+	if (key == 65363)
+		cub->cam_left->ok = TRUE;
+	if (key == 65361)
+		cub->cam_right->ok = TRUE;
+	display_game_frame(cub);
+	return (0);
+}
+
+int	key_release(int key, t_cub *cub)
+{
+	printf("release\n");
+	if (key == 119)
+		cub->go_w->ok = FALSE;
+	if (key == 115)
+		cub->go_s->ok = FALSE;
+	if (key == 97)
+		cub->go_a->ok = FALSE;
+	if (key == 100)
+		cub->go_d->ok = FALSE;
+	if (key == 65363)
+		cub->cam_left->ok = FALSE;
+	if (key == 65361)
+		cub->cam_right->ok = FALSE;
+	return (0);
+}
+
+void	go_cub(t_main *data)
+{
+	t_cub	cub;
 
 	init_value(&cub, data);
 	cub.mlx = mlx_init();
@@ -256,21 +191,12 @@ void go_cub(t_main *data)
 	if (!cub.win)
 		exit(1);
 	img_init(&cub);
-	//	img_init(data);
-	//	mlx_hook(data->win, 2, 1L << 0, &keymap, data);
-	//	mlx_mouse_hook(data->win, &ctrl_mouse, data);
-	mlx_hook(cub.win, 17, 1L << 17, &close_window, data);
-	mlx_hook(cub.win, KeyPress, KeyPressMask, &key_press_exit, &cub); //close avec Esc
-	mlx_hook(cub.win, DestroyNotify, 0, &close_mouse, &cub); // close avec souris
-	int i = 0;
-	while (cub.map[i])
-	{
-		fprintf(stderr, "%s = %d\n", cub.map[i], i);
-		i++;
-	}
-	fprintf(stderr, "start pos = [%f][%f]\n", cub.posx, cub.posy);
-	display_background(&cub);
-	display_game_frame(&cub);
-	display_minimap(&cub, "NESW", what_lentab(cub.map), 0);
+	mlx_hook(cub.win, KeyPress, KeyPressMask, &key_press, &cub);
+	//	mlx_do_key_autorepeaton(cub.mlx);
+	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, &key_release, &cub);
+	mlx_hook(cub.win, DestroyNotify, 0, &close_window, &cub);
+	mlx_loop_hook(cub.mlx, &display_game_frame, &cub);
+	//	game_on(&cub);
 	mlx_loop(cub.mlx);
+	//	mlx_do_key_autorepeatoff(cub.mlx);
 }
