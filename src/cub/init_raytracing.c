@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/06 04:53:23 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 05:52:40 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,22 @@ double	start_pos(char **tab, int ok)
 		x++;
 	}
 	return (0);
+}
+
+void	init_event(t_cub *cub)
+{
+	cub->go_w = malloc(sizeof(t_bool));
+	cub->go_w->key = 119;
+	cub->go_s = malloc(sizeof(t_bool));
+	cub->go_s->key = 115;
+	cub->go_a = malloc(sizeof(t_bool));
+	cub->go_a->key = 97;
+	cub->go_d = malloc(sizeof(t_bool));
+	cub->go_d->key = 100;
+	cub->cam_left = malloc(sizeof(t_bool));
+	cub->cam_left->key = 65363;
+	cub->cam_left = malloc(sizeof(t_bool));
+	cub->cam_right->key = 65361;
 }
 
 void	init_value(t_cub *cub, t_main *data)
@@ -81,6 +97,7 @@ void	init_value(t_cub *cub, t_main *data)
 		cub->planex = 0.66;// (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
 		cub->planey = 0;// (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
 	}
+	init_event(cub);
 	cub->side = 0;
 //	cub->time = 0; // time of current frame
 //	cub->oldtime = 0; //time of previous frame

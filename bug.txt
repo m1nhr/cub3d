@@ -1,0 +1,2 @@
+-probleme inversement 'a' et 'd' selon langle de vue
+-segfault si mur touche sur la droite apres demRAGE
