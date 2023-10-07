@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 05:52:40 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 08:47:26 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	init_event(t_cub *cub)
 	cub->go_d->key = 100;
 	cub->cam_left = malloc(sizeof(t_bool));
 	cub->cam_left->key = 65363;
-	cub->cam_left = malloc(sizeof(t_bool));
+	cub->cam_right = malloc(sizeof(t_bool));
 	cub->cam_right->key = 65361;
 }
 

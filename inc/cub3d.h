@@ -150,7 +150,7 @@ void			init_value(t_cub *cub, t_main *data);
 double			start_pos(char **tab, int ok);
 
 //display
-void			display_game_frame(t_cub *cub);
+int			display_game_frame(t_cub *cub);
 void			display_background(t_cub *cub);
 void			display_minimap(t_cub *cub, int x, int y);
 

@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 07:04:19 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 08:46:35 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,34 +29,66 @@ void	user_movement(t_cub *cub, int key)
 {
 	double	m;
 
-	m = 0.05; // movespeed
-	if (key == 119)  // w
+	m = 0.05;       // movespeed
+	if (key == cub->go_w->key)
 	{
 		if (cub->map[(int)(cub->posx + cub->dirx * m)][(int)(cub->posy)] != '1')
 			cub->posx += cub->dirx * m;
 		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->diry * m)] != '1')
 			cub->posy += cub->diry * m;
 	}
-	else if (key == 115) // s
+	else if (key == cub->go_s->key)
 	{
 		if (cub->map[(int)(cub->posx - cub->dirx * m)][(int)(cub->posy)] != '1')
 			cub->posx -= cub->dirx * m;
 		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->diry * m)] != '1')
 			cub->posy -= cub->diry * m;
 	}
- 	else if (key == 97)
+	else if (key == cub->go_a->key)
 	{
-		if (cub->map[(int)(cub->posx + cub->diry * m)][(int)(cub->posy)] != '1')
-			cub->posx += cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx * m)] != '1')
-			cub->posy += cub->dirx * m;
+		if (((cub->dirx > -0.3 && cub->dirx < 0.3) && (cub->diry > 0.7
+					&& cub->diry < 1.3)) || ((cub->dirx > -0.3 && cub->dirx
+					< 0.3) && (cub->diry > -1.3 && cub->diry < -0.7)))
+		{
+			if (cub->map[(int)(cub->posx - cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx -= cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
+					* m)] != '1')
+				cub->posy -= cub->dirx * m;
+		}
+		else
+		{
+			if (cub->map[(int)(cub->posx + cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx += cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
+					* m)] != '1')
+				cub->posy += cub->dirx * m;
+		}
 	}
-	else if (key == 100)
+	else if (key == cub->go_d->key)
 	{
-		if (cub->map[(int)(cub->posx - cub->diry * m)][(int)(cub->posy)] != '1')
-			cub->posx -= cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx * m)] != '1')
-			cub->posy -= cub->dirx * m;
+		if (((cub->dirx > -0.3 && cub->dirx < 0.3) && (cub->diry > -1.3
+					&& cub->diry < -0.7)) || ((cub->dirx > -0.3 && cub->dirx
+					< 0.3) && (cub->diry > 0.7 && cub->diry < 1.3)))
+		{
+			if (cub->map[(int)(cub->posx + cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx += cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
+					* m)] != '1')
+				cub->posy += cub->dirx * m;
+		}
+		else
+		{
+			if (cub->map[(int)(cub->posx - cub->diry
+					* m)][(int)(cub->posy)] != '1')
+				cub->posx -= cub->diry * m;
+			if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
+					* m)] != '1')
+				cub->posy -= cub->dirx * m;
+		}
 	}
 }
 
@@ -65,7 +97,7 @@ void	cam_movement(t_cub *cub, int key, double rt)
 	double	olddirx;
 	double	oldplanex;
 
-	if (key == 65363)  // left
+	if (key == cub->cam_left->key)
 	{
 		olddirx = cub->dirx;
 		cub->dirx = cub->dirx * cos(-rt) - cub->diry * sin(-rt);
@@ -74,7 +106,7 @@ void	cam_movement(t_cub *cub, int key, double rt)
 		cub->planex = cub->planex * cos(-rt) - cub->planey * sin(-rt);
 		cub->planey = oldplanex * sin(-rt) + cub->planey * cos(-rt);
 	}
-	else if (key == 65361)  // right
+	else if (key == cub->cam_right->key)
 	{
 		olddirx = cub->dirx;
 		cub->dirx = cub->dirx * cos(rt) - cub->diry * sin(rt);
@@ -87,9 +119,7 @@ void	cam_movement(t_cub *cub, int key, double rt)
 
 int	game_on(t_cub *cub)
 {
-//	display_background(cub);
 	display_game_frame(cub);
-//	display_minimap(cub, "NESW", what_lentab(cub->map), 0);
 	return (0);
 }
 
@@ -127,7 +157,7 @@ int	key_press(int key, t_cub *cub)
 		cub->cam_left->ok = TRUE;
 	if (key == 65361)
 		cub->cam_right->ok = TRUE;
-	game_on(cub);
+	display_game_frame(cub);
 	return (0);
 }
 
@@ -149,9 +179,9 @@ int	key_release(int key, t_cub *cub)
 	return (0);
 }
 
-void go_cub(t_main *data)
+void	go_cub(t_main *data)
 {
-	t_cub cub;
+	t_cub	cub;
 
 	init_value(&cub, data);
 	cub.mlx = mlx_init();
@@ -162,11 +192,11 @@ void go_cub(t_main *data)
 		exit(1);
 	img_init(&cub);
 	mlx_hook(cub.win, KeyPress, KeyPressMask, &key_press, &cub);
-//	mlx_do_key_autorepeaton(cub.mlx);
+	//	mlx_do_key_autorepeaton(cub.mlx);
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, &key_release, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, &close_window, &cub);
-	mlx_loop_hook(cub.mlx, &game_on, &cub);
-//	game_on(&cub);
+	mlx_loop_hook(cub.mlx, &display_game_frame, &cub);
+	//	game_on(&cub);
 	mlx_loop(cub.mlx);
-//	mlx_do_key_autorepeatoff(cub.mlx);
+	//	mlx_do_key_autorepeatoff(cub.mlx);
 }

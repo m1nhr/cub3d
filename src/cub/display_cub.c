@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 05:21:16 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 08:46:52 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	display_background(t_cub *cub)
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 }
 
-void	display_game_frame(t_cub *cub)
+int	display_game_frame(t_cub *cub)
 {
 	int	x;
 	int	y;
@@ -170,5 +170,6 @@ void	display_game_frame(t_cub *cub)
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 	keymap_event(cub);
-	fprintf(stderr, "coord>[%f][%f]\n", cub->posy, cub->posx);
+	fprintf(stderr, "coord>[%f][%f] +  dirx = %f & diry = %f\n", cub->posy, cub->posx, cub->dirx, cub->diry);
+	return (0);
 }
