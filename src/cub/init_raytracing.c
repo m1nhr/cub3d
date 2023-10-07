@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 08:47:26 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 10:54:08 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ double	start_pos(char **tab, int ok)
 	x = 0;
 	finder = "NESW";
 	while (tab[(int)x])
-	{	
+	{
 		y = 0;
 		while (tab[(int)x][(int)y])
 		{
@@ -54,21 +54,27 @@ void	init_event(t_cub *cub)
 	cub->cam_right->key = 65361;
 }
 
-void	init_value(t_cub *cub, t_main *data)
+void	init_pos_dig(t_cub *cub)
 {
-	cub->data = data;
-	cub->map = data->map;
-	cub->colors_ceiling = data->colors_ceiling;
-	cub->colors_floor = data->colors_floor;
-	cub->textures = data->textures;
-	cub->posx = start_pos(cub->map, 0);
-	cub->posy = start_pos(cub->map, 1);
-	int i = 0;
-	while (cub->map[i])
+	if (cub->map[(int)cub->posx][(int)cub->posy] == 'W')
 	{
-		fprintf(stderr, "%s = %d\n", cub->map[i], i);
-		i++;
+		cub->dirx = 0;
+		cub->diry = -1;
+		cub->planex = -0.66;
+		cub->planey = 0;
 	}
+	else if (cub->map[(int)cub->posx][(int)cub->posy] == 'E')
+	{
+		cub->dirx = 0;
+		cub->diry = 1;
+		cub->planex = 0.66;
+		cub->planey = 0;
+	}
+	return ;
+}
+
+void	init_pos(t_cub *cub)
+{
 	if (cub->map[(int)cub->posx][(int)cub->posy] == 'N')
 	{
 		cub->dirx = -1;
@@ -83,22 +89,28 @@ void	init_value(t_cub *cub, t_main *data)
 		cub->planex = 0;
 		cub->planey = -0.66;
 	}
-	else if (cub->map[(int)cub->posx][(int)cub->posy] == 'W')
-	{
-		cub->dirx = 0;
-		cub->diry = -1;
-		cub->planex = -0.66;
-		cub->planey = 0;
-	}
-	else if (cub->map[(int)cub->posx][(int)cub->posy] == 'E')
-	{
-		cub->dirx = 0; // (commence à -1 pour N, 1 pour S, 0 sinon)
-		cub->diry = 1;	// (commence à -1 pour W, 1 pour E, 0 sinon)
-		cub->planex = 0.66;// (commence à 0.66 pour E, -0.66 pour W, 0 sinon)
-		cub->planey = 0;// (commence à 0.66 pour N, -0.66 pour S, 0 sinon)
-	}
+	else
+		init_pos_dig(cub);
+}
+
+void	init_value(t_cub *cub, t_main *data)
+{
+	int	i;
+
+	cub->data = data;
+	cub->map = data->map;
+	cub->colors_ceiling = data->colors_ceiling;
+	cub->colors_floor = data->colors_floor;
+	cub->textures = data->textures;
+	cub->posx = start_pos(cub->map, 0);
+	cub->posy = start_pos(cub->map, 1);
+	cub->side = -1;
+	init_pos(cub);
 	init_event(cub);
-	cub->side = 0;
-//	cub->time = 0; // time of current frame
-//	cub->oldtime = 0; //time of previous frame
+	i = 0;
+	while (cub->map[i])
+	{
+		fprintf(stderr, "%s = %d\n", cub->map[i], i);
+		i++;
+	}
 }

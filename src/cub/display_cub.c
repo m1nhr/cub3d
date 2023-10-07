@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 08:46:52 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 10:54:45 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,38 +40,6 @@ void	display_minimap(t_cub *cub, int x, int y)
 		y += 6;
 		y_tab++;
 	}
-}
-
-void	display_background(t_cub *cub)
-{
-	int		x;
-	int		y;
-	double	fade;
-
-	fade = 1;
-	y = 0;
-	while (y < HEIGHT / 2)
-	{
-		x = 0;
-		fade *= 1.0018;
-		while (x < WIGHT)
-		{
-			put_pixel(cub, x, y, 0x0000FF * fade);
-			x++;
-		}
-		y++;
-	}
-	while (y < HEIGHT)
-	{
-		x = 0;
-		while (x < WIGHT)
-		{
-			put_pixel(cub, x, y, 0x808080);
-			x++;
-		}
-		y++;
-	}
-	mlx_put_image_to_window(cub->mlx, cub->win, cub->img->img, 0, 0);
 }
 
 int	display_game_frame(t_cub *cub)

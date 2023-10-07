@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 08:56:51 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/07 10:55:45 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,12 +117,6 @@ void	cam_movement(t_cub *cub, int key, double rt)
 	}
 }
 
-int	game_on(t_cub *cub)
-{
-	display_game_frame(cub);
-	return (0);
-}
-
 void	keymap_event(t_cub *cub)
 {
 	if (cub->go_w->ok == TRUE)
@@ -196,7 +190,6 @@ void	go_cub(t_main *data)
 	mlx_hook(cub.win, KeyRelease, KeyReleaseMask, &key_release, &cub);
 	mlx_hook(cub.win, DestroyNotify, 0, &close_window, &cub);
 	mlx_loop_hook(cub.mlx, &display_game_frame, &cub);
-	//	game_on(&cub);
 	mlx_loop(cub.mlx);
 	//	mlx_do_key_autorepeatoff(cub.mlx);
 }
