@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 11:06:38 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 00:28:47 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -280,7 +280,7 @@ void	go_cub(t_main *data)
 	init_value(&cub, data);
 	if (mlx_stuff(&cub))
 		return ;
-	//get_texture(&cub);
+	get_texture(&cub);
 	mlx_hook(cub.img->win, KeyPress, KeyPressMask, &key_press, &cub);
 	//	mlx_do_key_autorepeaton(cub.mlx);
 	mlx_hook(cub.img->win, KeyRelease, KeyReleaseMask, &key_release, &cub);

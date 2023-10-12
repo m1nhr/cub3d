@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 03:21:01 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 08:27:26 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 00:36:28 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,6 @@ void	put_x10(t_cub *cub, int x, int y, int color)
 	int tmpy = y;
 //	int	tabsize;
 //	int	ok;
-	
 	while (y < (tmpy + 6))
 	{
 		x = tmpx;

@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 11:07:17 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 00:24:53 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,7 +174,7 @@ int	display_game_frame(t_cub *cub)
  			cub->texy = (int)cub->tex_pos;
 			cub->tex_pos += cub->walk;
 			
-/*			if (cub->side == 0 && cub->raydirx < 0)
+			if (cub->side == 0 && cub->raydirx < 0)
  				put_pixel(cub, x, y, get_color(cub, cub->texture1));
 			else if (cub->side == 0 && cub->raydirx >= 0)
 				put_pixel(cub, x, y, get_color(cub, cub->texture2));
@@ -182,8 +182,8 @@ int	display_game_frame(t_cub *cub)
 				put_pixel(cub, x, y, get_color(cub, cub->texture3));
 			else if (cub->side == 1 && cub->raydiry >= 0)
 				put_pixel(cub, x, y, get_color(cub, cub->texture4));
-			printf("ok\n"); */ 
-			put_pixel(cub, x, y, color);
+		//	printf("ok\n");
+		//	put_pixel(cub, x, y, color);
 			y++;
 		}
 		while (y < HEIGHT)
