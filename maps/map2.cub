@@ -1,7 +1,7 @@
-NO ../../textures/N.xpm
-SO ../../textures/S.xpm
-WE ../../textures/W.xpm
-EA ../../textures/E.xpm
+NO texture/N.xpm
+SO ../texture/S.xpm
+WE ../texture/W.xpm
+EA ../texture/E.xpm
 
 F 147,155,155
 C 123,123,123

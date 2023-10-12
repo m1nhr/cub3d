@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 05:29:25 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/12 09:56:31 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,12 +108,8 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->SO = ft_strdup(data->SO);
 	cub->WE = ft_strdup(data->WE);
 	cub->EA = ft_strdup(data->EA);
-	cub->data.img = NULL;
-	cub->texture1.img = NULL;
-	cub->texture2.img = NULL;
-	cub->texture3.img = NULL;
-	cub->texture4.img = NULL;
-	cub->data.win = NULL;
+//	cub->img->img = NULL;
+	//cub->img->win = NULL;
 	//cub->map = NULL;
 	init_pos(cub);
 	init_malloc_event(cub);

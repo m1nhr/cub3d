@@ -6,27 +6,29 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 03:21:01 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 05:19:02 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/12 08:27:26 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
-/*
-int	get_color(t_struct *all, t_algo *algo, t_img *img, void *image)
+
+int	get_color(t_cub *cub, t_img *texture)
 {
 	char	*dst;
 
-	if (algo->tex.x < 0 || algo->tex.y < 0 || algo->tex.y > HEIGHT - 1 \
-	|| algo->tex.x > WIGHT - 1)
+ 	if (cub->texx < 0 || cub->texy < 0 || cub->texy > HEIGHT - 1 \
+	|| cub->texx > WIGHT - 1)
 		return (0);
-	img->data = \
-	mlx_get_data_addr(image, &img->bpp, &img->size_line, &img->endian);
-	if (!img->data)
-		clean_win_kill(all);
-	dst = img->data + (algo->tex.y * img->size_line + algo->tex.x * \
-	(img->bpp / 8));
+
+
+/* 	texture->data_addr = mlx_get_data_addr(texture->img, &(texture->bpp),
+			&(texture->line_size), &(texture->endian));
+	if (!texture->data_addr)
+		return (1); */
+	dst = texture->data_addr + (cub->texy * texture->line_size + cub->texx * \
+	(texture->bpp / 8));
 	return (*(int *)dst);
-}*/
+}
 
 void	put_pixel(t_cub *cub, int x, int y, int color)
 {
@@ -34,7 +36,7 @@ void	put_pixel(t_cub *cub, int x, int y, int color)
 
 	if (x < 0 || y < 0 || y > HEIGHT - 1 || x > WIGHT - 1)
 		return ;
-	dest = cub->data.data_addr + (y * cub->data.line_size) + x * (cub->data.bpp
+	dest = cub->img->data_addr + (y * cub->img->line_size) + x * (cub->img->bpp
 			/ 8);
 	*(unsigned int *)dest = color;
 }

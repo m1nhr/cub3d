@@ -55,6 +55,21 @@ typedef struct s_bool
 	int			ok;
 }				t_bool;
 
+typedef struct s_img
+{
+	void		*mlx;
+	void		*win;
+
+	void		*img;
+	char		*data_addr;
+	int			bpp;
+	int			line_size;
+	int			endian;
+//	int			width;
+//	int			height;
+
+
+}				t_img;
 
 typedef struct s_main
 {
@@ -62,16 +77,7 @@ typedef struct s_main
 	t_parse_map	*parse_map;
 	t_colors	colors_floor;
 	t_colors	colors_ceiling;
-	void		*mlx;
-	void		*win;
-	void		*img;
-	char		*data_addr;
-	int			*addr;
-	int			bpp;
-	int			line_size;
-	int			endian;
-	int				width;
-	int				height;
+
 	char		*NO;
 	char		*SO;
 	char		*WE;
@@ -108,6 +114,12 @@ typedef struct s_cub
 	char		*SO;
 	char		*WE;
 	char		*EA;
+	double		wall_x;
+	int			texx;
+	int			texy;
+	double		tex_pos;
+	double		walk;
+
 	t_bool		*move;
 	t_bool		*go_w;
 	t_bool		*go_s;
@@ -116,10 +128,11 @@ typedef struct s_cub
 	t_bool		*cam_right;
 	t_bool		*cam_left;
 	t_textures	t;
-	t_main			texture1;
-	t_main			texture2;
-	t_main			texture3;
-	t_main			texture4;
+	t_img			*img;
+	t_img		*texture1;
+	t_img			*texture2;
+	t_img			*texture3;
+	t_img			*texture4;
 	t_main			data;
 	t_colors	colors_ceiling;
 	t_colors	colors_floor;
@@ -174,5 +187,6 @@ void			keymap_event(t_cub *cub);
 int				what_lentab(char **tab);
 double			get_start_pos(t_cub *cub, int ok);
 float			ft_fabs(float i);
+int	get_color(t_cub *cub, t_img  *texture);
 
 #endif
