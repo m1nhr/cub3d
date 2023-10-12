@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 05:31:29 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 00:28:47 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 int	close_window(t_cub *cub)
 {
 	ft_putendl_fd("goodbye :)", 1);
-	mlx_destroy_image(cub->data.mlx, cub->data.img);
-	mlx_destroy_window(cub->data.mlx, cub->data.win);
-	mlx_destroy_display(cub->data.mlx);
-//	free(cub->data.img);
-	free(cub->data.mlx);
+	mlx_destroy_image(cub->img->mlx, cub->img->img);
+	mlx_destroy_window(cub->img->mlx, cub->img->win);
+	mlx_destroy_display(cub->img->mlx);
+	//	free(cub->data.img);
+	free(cub->img->mlx);
 	free_tab(cub->data.parse_map->map_parse);
 	free(cub->data.parse_map);
 	exit(0);
@@ -29,7 +29,7 @@ void	user_movement(t_cub *cub, int key)
 {
 	double	m;
 
-	m = 0.03;       // movespeed
+	m = 0.04; // movespeed
 	if (key == cub->go_w->key)
 	{
 		if (cub->map[(int)(cub->posx + cub->dirx * m)][(int)(cub->posy)] != '1')
@@ -47,8 +47,9 @@ void	user_movement(t_cub *cub, int key)
 	else if (key == cub->go_a->key)
 	{
 		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > 0.5
-					&& cub->diry < 1.5)) || ((cub->dirx > -0.5 && cub->dirx
-					< 0.3) && (cub->diry > -1.5 && cub->diry < -0.5)))
+					&& cub->diry < 1.5)) || ((cub->dirx > -0.5
+					&& cub->dirx < 0.3) && (cub->diry > -1.5 && cub->diry <
+					-0.5)))
 		{
 			if (cub->map[(int)(cub->posx - cub->diry
 					* m)][(int)(cub->posy)] != '1')
@@ -70,8 +71,9 @@ void	user_movement(t_cub *cub, int key)
 	else if (key == cub->go_d->key)
 	{
 		if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > -1.5
-					&& cub->diry < -0.5)) || ((cub->dirx > -0.5 && cub->dirx
-					< 0.5) && (cub->diry > 0.5 && cub->diry < 1.5)))
+					&& cub->diry < -0.5)) || ((cub->dirx > -0.5
+					&& cub->dirx < 0.5) && (cub->diry > 0.5
+					&& cub->diry < 1.5)))
 		{
 			if (cub->map[(int)(cub->posx + cub->diry
 					* m)][(int)(cub->posy)] != '1')
@@ -173,8 +175,9 @@ int	key_release(int key, t_cub *cub)
 	return (0);
 }
 
-void	ft_get_texture_adress(t_cub *cub)
-{	
+/* void	ft_get_texture_adress(t_cub *cub)
+{
+	
 	cub->texture1.data_addr = mlx_get_data_addr(cub->texture1.img,
 			&(cub->texture1.bpp),
 			&(cub->texture1.line_size), &(cub->texture1.endian));
@@ -189,22 +192,48 @@ void	ft_get_texture_adress(t_cub *cub)
 			&(cub->texture4.line_size), &(cub->texture4.endian));
 }
 
+        tex.img = mlx_xpm_file_to_image(cub->mlx, trimmed, &tex.len,
+		&tex.height);
+    if (!tex.img)
+        return (return_error("PARSING ERROR: Couldn't import texture\n", 0));
+    tex.addr = mlx_get_data_addr(tex.img, &tex.bpp, &tex.len, &tex.end);
+
+ */
+
 void	get_texture(t_cub *cub)
 {
-	cub->texture1.img = mlx_xpm_file_to_image(cub->data.mlx, cub->NO, &(cub->texture1.width),
-					&(cub->texture1.height));
-//		ft_error(recup, "Texture SO\n");
-	cub->texture2.img = mlx_xpm_file_to_image(cub->data.mlx, cub->SO, &(cub->texture2.width),
-					&(cub->texture2.height));
-//		ft_error(recup, "Texture NO\n");
-	cub->texture3.img = mlx_xpm_file_to_image(cub->data.mlx, cub->WE, &(cub->texture3.width),
-					&(cub->texture3.height));
-//		ft_error(recup, "Texture EA\n");
-	cub->texture4.img = mlx_xpm_file_to_image(cub->data.mlx, cub->EA, &(cub->texture4.width),
-					&(cub->texture4.height));
-	ft_get_texture_adress(cub);
-} 
+	int	h;
+	int	w;
 
+	cub->texture1 = ft_calloc(1, sizeof(t_img));
+	cub->texture1->img = mlx_xpm_file_to_image(cub->img->mlx, cub->NO, &w, &h);
+	if (!cub->texture1->img)
+		return ;
+	cub->texture1->data_addr = mlx_get_data_addr(cub->texture1->img,
+			&(cub->texture1->bpp), &(cub->texture1->line_size),
+			&(cub->texture1->endian));
+	cub->texture2 = ft_calloc(1, sizeof(t_img));
+	cub->texture2->img = mlx_xpm_file_to_image(cub->img->mlx, cub->SO, &w, &h);
+	if (!cub->texture2->img)
+		return ;
+	cub->texture2->data_addr = mlx_get_data_addr(cub->texture2->img,
+			&(cub->texture2->bpp), &(cub->texture2->line_size),
+			&(cub->texture2->endian));
+	cub->texture3 = ft_calloc(1, sizeof(t_img));
+	cub->texture3->img = mlx_xpm_file_to_image(cub->img->mlx, cub->WE, &w, &h);
+	if (!cub->texture3->img)
+		return ;
+	cub->texture3->data_addr = mlx_get_data_addr(cub->texture3->img,
+			&(cub->texture3->bpp), &(cub->texture3->line_size),
+			&(cub->texture3->endian));
+	cub->texture4 = ft_calloc(1, sizeof(t_img));
+	cub->texture4->img = mlx_xpm_file_to_image(cub->img->mlx, cub->EA, &w, &h);
+	if (!cub->texture4->img)
+		return ;
+	cub->texture4->data_addr = mlx_get_data_addr(cub->texture4->img,
+			&(cub->texture4->bpp), &(cub->texture4->line_size),
+			&(cub->texture4->endian));
+}
 
 int	init_text(t_cub *cub)
 {
@@ -226,42 +255,37 @@ int	init_text(t_cub *cub)
 
 int	mlx_stuff(t_cub *cub)
 {
-	cub->data.mlx = mlx_init();
-	if (!cub->data.mlx)
+	cub->img = ft_calloc(1, sizeof(t_img));
+	if (!cub->img)
+		return (1); // void error malloc
+	cub->img->mlx = mlx_init();
+	if (!cub->img->mlx)
 		return (1); // error mlx_init
-	cub->data.win = mlx_new_window(cub->data.mlx, 750, 750, "CUB3D");
-	if (!cub->data.win)
+	cub->img->win = mlx_new_window(cub->img->mlx, 750, 750, "CUB3D");
+	if (!cub->img->win)
 		return (1); // error mlx_win
-	//cub->data.img = malloc(sizeof(t_image));
-	//if (!cub->data.img)
-	//	return (1); // void error malloc
-	cub->data.img = mlx_new_image(cub->data.mlx, HEIGHT, WIGHT);
-	cub->data.data_addr = mlx_get_data_addr(cub->data.img,
-			&(cub->data.bpp), &(cub->data.line_size),
-			&(cub->data.endian));
+	cub->img->img = mlx_new_image(cub->img->mlx, HEIGHT, WIGHT);
+	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
+			&(cub->img->line_size), &(cub->img->endian));
 	return (0);
 }
 
 void	go_cub(t_main *data)
 {
-	t_cub	*cub;
+	t_cub	cub;
 
-	cub = malloc(sizeof(t_cub));
+	/* 	cub = malloc(sizeof(t_cub));
 	if (!cub)
+		return ; */
+	init_value(&cub, data);
+	if (mlx_stuff(&cub))
 		return ;
-	init_value(cub, data);
-	if (mlx_stuff(cub))
-		return ;
-//	get_texture(cub);
-	//printf("%s==%s\n", cub->NO, data->NO);
-	printf("okca passe\n");
-	mlx_hook(cub->data.win, KeyPress, KeyPressMask, &key_press, cub);
+	get_texture(&cub);
+	mlx_hook(cub.img->win, KeyPress, KeyPressMask, &key_press, &cub);
 	//	mlx_do_key_autorepeaton(cub.mlx);
-	mlx_hook(cub->data.win, KeyRelease, KeyReleaseMask, &key_release, cub);
-	mlx_hook(cub->data.win, DestroyNotify, 0, &close_window, cub);
-	mlx_loop_hook(cub->data.mlx, &display_game_frame, cub);
-	mlx_loop(cub->data.mlx);
+	mlx_hook(cub.img->win, KeyRelease, KeyReleaseMask, &key_release, &cub);
+	mlx_hook(cub.img->win, DestroyNotify, 0, &close_window, &cub);
+	mlx_loop_hook(cub.img->mlx, &display_game_frame, &cub);
+	mlx_loop(cub.img->mlx);
 	//	mlx_do_key_autorepeatoff(cub.mlx);
 }
-
-

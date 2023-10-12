@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/12 05:19:14 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 00:24:53 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,23 @@ void	ft_draw_texture(t_recup *recup, int x, int y)
 					4 + recup->t.texx];
 	}
 }*/
+
+void	update_texture(t_cub *cub, int line_height)
+{
+	if (cub->side == 0)
+		cub->wall_x = cub->posy + cub->dist_to_wall * cub->raydiry;
+	else
+		cub->wall_x = cub->posx + cub->dist_to_wall * cub->raydirx;
+	cub->wall_x -= floor((cub->wall_x));
+	cub->texx = (int)(cub->wall_x * 64);
+	if (cub->side == 0 && cub->raydirx > 0)
+		cub->texx = 64 - cub->texx - 1;
+	if (cub->side == 1 && cub->raydiry < 0)
+		cub->texx = 64 - cub->texx - 1;
+	cub->walk = 1.0 * 64 / line_height;
+	cub->tex_pos = \
+	(cub->draw_start - HEIGHT / 2 + line_height / 2) * cub->walk;
+}
 
 int	display_game_frame(t_cub *cub)
 {
@@ -151,9 +168,22 @@ int	display_game_frame(t_cub *cub)
 			put_pixel(cub, x, y, 0x0000FF);
 			y++;
 		}
+		update_texture(cub, lineheight);
 		while (y <= cub->draw_end && y >= cub->draw_start)
 		{
-			put_pixel(cub, x, y, color);
+ 			cub->texy = (int)cub->tex_pos;
+			cub->tex_pos += cub->walk;
+			
+			if (cub->side == 0 && cub->raydirx < 0)
+ 				put_pixel(cub, x, y, get_color(cub, cub->texture1));
+			else if (cub->side == 0 && cub->raydirx >= 0)
+				put_pixel(cub, x, y, get_color(cub, cub->texture2));
+			else if (cub->side == 1 && cub->raydiry < 0)
+				put_pixel(cub, x, y, get_color(cub, cub->texture3));
+			else if (cub->side == 1 && cub->raydiry >= 0)
+				put_pixel(cub, x, y, get_color(cub, cub->texture4));
+		//	printf("ok\n");
+		//	put_pixel(cub, x, y, color);
 			y++;
 		}
 		while (y < HEIGHT)
@@ -164,7 +194,7 @@ int	display_game_frame(t_cub *cub)
 		x++;
 	}
 	display_minimap(cub, 0, 0);
-	mlx_put_image_to_window(cub->data.mlx, cub->data.win, cub->data.img, 0, 0);
+	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
 	keymap_event(cub);
 	fprintf(stderr, "coord>[%f][%f] +  dirx = %f & diry = %f\n", cub->posy, cub->posx, cub->dirx, cub->diry);
 	return (0);
