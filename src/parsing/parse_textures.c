@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:46:53 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/03 17:55:56 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/12 03:13:33 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->textures.NO = &str[i];
+		data->NO = &str[i];
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "SO ", 3))
@@ -58,7 +58,7 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->textures.SO = &str[i];
+		data->SO = &str[i];
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "EA ", 3))
@@ -66,7 +66,7 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->textures.EA = &str[i];
+		data->EA = &str[i];
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "WE ", 3))
@@ -74,7 +74,7 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->textures.WE = &str[i];
+		data->WE = &str[i];
 		return (1);
 	}
 	else

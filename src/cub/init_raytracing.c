@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/07 10:54:08 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/12 05:29:25 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ double	start_pos(char **tab, int ok)
 	return (0);
 }
 
-void	init_event(t_cub *cub)
+void	init_malloc_event(t_cub *cub)
 {
 	cub->go_w = malloc(sizeof(t_bool));
 	cub->go_w->key = 119;
@@ -97,16 +97,26 @@ void	init_value(t_cub *cub, t_main *data)
 {
 	int	i;
 
-	cub->data = data;
 	cub->map = data->map;
-	cub->colors_ceiling = data->colors_ceiling;
-	cub->colors_floor = data->colors_floor;
-	cub->textures = data->textures;
+	cub->colors_ceiling = cub->data.colors_ceiling;
+	cub->colors_floor = cub->data.colors_floor;
+	//cub->textures = data->textures;
 	cub->posx = start_pos(cub->map, 0);
 	cub->posy = start_pos(cub->map, 1);
 	cub->side = -1;
+	cub->NO = ft_strdup(data->NO);
+	cub->SO = ft_strdup(data->SO);
+	cub->WE = ft_strdup(data->WE);
+	cub->EA = ft_strdup(data->EA);
+	cub->data.img = NULL;
+	cub->texture1.img = NULL;
+	cub->texture2.img = NULL;
+	cub->texture3.img = NULL;
+	cub->texture4.img = NULL;
+	cub->data.win = NULL;
+	//cub->map = NULL;
 	init_pos(cub);
-	init_event(cub);
+	init_malloc_event(cub);
 	i = 0;
 	while (cub->map[i])
 	{

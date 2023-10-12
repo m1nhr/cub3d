@@ -15,6 +15,8 @@
 
 # define HEIGHT 750
 # define WIGHT 750
+# define texwidth 64
+# define texheight 64
 # define TRUE 1
 # define FALSE 0
 
@@ -29,10 +31,14 @@ typedef struct s_parse_map
 
 typedef struct s_textures
 {
-	char		*NO;
-	char		*SO;
-	char		*WE;
-	char		*EA;
+	int			height;
+	int			width;
+	int			textdir;
+	double		wallx;
+	int			texx;
+	int			texy;
+	double		step;
+	double		texpos;
 }				t_textures;
 
 typedef struct s_colors
@@ -42,23 +48,6 @@ typedef struct s_colors
 	int			blue;
 }				t_colors;
 
-typedef struct s_main
-{
-	char		**map;
-	t_parse_map	*parse_map;
-	t_colors	colors_floor;
-	t_colors	colors_ceiling;
-	t_textures	textures;
-}				t_main;
-
-typedef struct s_image
-{
-	void		*img;
-	char		*data_addr;
-	int			bpp;
-	int			line_size;
-	int			endian;
-}				t_image;
 
 typedef struct s_bool
 {
@@ -66,29 +55,43 @@ typedef struct s_bool
 	int			ok;
 }				t_bool;
 
-typedef struct s_move
+
+typedef struct s_main
 {
-}				t_move;
+	char		**map;
+	t_parse_map	*parse_map;
+	t_colors	colors_floor;
+	t_colors	colors_ceiling;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	char		*data_addr;
+	int			*addr;
+	int			bpp;
+	int			line_size;
+	int			endian;
+	int				width;
+	int				height;
+	char		*NO;
+	char		*SO;
+	char		*WE;
+	char		*EA;
+}				t_main;
 
 typedef struct s_cub
 {
 	char		**map;
-	void		*mlx;
-	void		*win;
+
 	double		posx;
 	double		posy;
 	double		dirx;
 	double		diry;
-
 	double		planex;
 	double		planey;
-
 	double		raydirx;
 	double		raydiry;
-
 	int			mapx;
 	int			mapy;
-
 	double		sidedistx;
 	double		sidedisty;
 	double		deltadistx;
@@ -101,8 +104,10 @@ typedef struct s_cub
 	int			draw_start;
 	int			draw_end;
 	double		camerax;
-	double		time;
-	double		oldtime;
+	char 		*NO;
+	char		*SO;
+	char		*WE;
+	char		*EA;
 	t_bool		*move;
 	t_bool		*go_w;
 	t_bool		*go_s;
@@ -110,12 +115,17 @@ typedef struct s_cub
 	t_bool		*go_d;
 	t_bool		*cam_right;
 	t_bool		*cam_left;
-	t_image		*img;
-	t_main		*data;
+	t_textures	t;
+	t_main			texture1;
+	t_main			texture2;
+	t_main			texture3;
+	t_main			texture4;
+	t_main			data;
 	t_colors	colors_ceiling;
 	t_colors	colors_floor;
-	t_textures	textures;
 }				t_cub;
+
+
 
 /*PARSING DIRECTORY*/
 
