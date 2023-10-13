@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   display_cub.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 05:43:50 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:18:48 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,7 +163,8 @@ int	display_game_frame(t_cub *cub)
 		draw_total_frame(cub, x, 0, lineheight);
 		x++;
 	}
-	mlx_mouse_move(cub->img->mlx, cub->img->win, 750 / 2, 750 / 2);
+	if (cub->mouse_on == 0)
+		mlx_mouse_move(cub->img->mlx, cub->img->win, 750 / 2, 750 / 2);
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
 	keymap_event(cub);

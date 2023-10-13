@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_raytracing.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 05:53:41 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:17:30 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,7 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->texture3 = NULL;
 	cub->texture4 = NULL;
 	cub->side = 0;
+	cub->mouse_on = 0;
 	init_pos(cub);
 	init_malloc_event(cub);
 	int	i = 0;

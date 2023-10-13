@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:05:29 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 05:52:14 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:24:28 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,9 +46,9 @@ void    keymap_event(t_cub *cub)
 		cam_movement(cub, 65363, 0.02);
 	if (cub->cam_right->ok == TRUE)
 		cam_movement(cub, 65361, 0.02);
-	if (cub->cam_mouse_left == TRUE)
+	if (cub->cam_mouse_left == TRUE && cub->mouse_on == 0)
 		cam_movement(cub, 65361, 0.025);
-	if (cub->cam_mouse_right == TRUE)
+	if (cub->cam_mouse_right == TRUE  && cub->mouse_on == 0)
 		cam_movement(cub, 65363, 0.025);
 	return ;
 }
@@ -69,6 +69,10 @@ int	key_press(int key, t_cub *cub)
 		cub->cam_left->ok = TRUE;
 	if (key == 65361)
 		cub->cam_right->ok = TRUE;
+	if (key == XK_c)
+		cub->mouse_on = 1;
+	if (key == XK_v)
+		cub->mouse_on = 0;
 	display_game_frame(cub);
 	return (0);
 }

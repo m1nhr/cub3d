@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 05:51:50 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 07:18:10 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,7 +169,8 @@ void	go_cub(t_main *data)
 	//	mlx_do_key_autorepeaton(cub.mlx);
 	mlx_hook(cub.img->win, KeyRelease, KeyReleaseMask, &key_release, &cub);
 	mlx_hook(cub.img->win, DestroyNotify, 0, &close_window, &cub);
-	mlx_mouse_hide(cub.img->mlx, cub.img->win);
+	if (cub.mouse_on == 0)
+		mlx_mouse_hide(cub.img->mlx, cub.img->win);
 	mlx_loop_hook(cub.img->mlx, &display_game_frame, &cub);
 	mlx_loop(cub.img->mlx);
 	//	mlx_do_key_autorepeatoff(cub.mlx);

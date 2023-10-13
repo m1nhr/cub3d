@@ -86,6 +86,7 @@ typedef struct s_cub
 {
 	char		**map;
 
+	int			mouse_on;
 	double		posx;
 	double		posy;
 	double		dirx;
