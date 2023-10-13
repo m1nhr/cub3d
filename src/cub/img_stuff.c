@@ -6,27 +6,36 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 03:21:01 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 00:36:28 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 01:20:26 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
+int	get_rgb(t_cub *cub, int ok)
+{
+	int	color;
+
+	if (ok)
+		color = ((cub->colors_ceiling.red & 0x0ff) << 16)
+			|((cub->colors_ceiling.green & 0x0ff) << 8)
+			|(cub->colors_ceiling.blue & 0x0ff);
+	else
+		color = ((cub->colors_floor.red & 0x0ff) << 16)
+			|((cub->colors_floor.green & 0x0ff) << 8)
+			|(cub->colors_floor.blue & 0x0ff);
+	return (color);
+}
+
 int	get_color(t_cub *cub, t_img *texture)
 {
 	char	*dst;
 
- 	if (cub->texx < 0 || cub->texy < 0 || cub->texy > HEIGHT - 1 \
-	|| cub->texx > WIGHT - 1)
+	if (cub->texx < 0 || cub->texy < 0 || cub->texy > HEIGHT - 1
+		|| cub->texx > WIGHT - 1)
 		return (0);
-
-
-/* 	texture->data_addr = mlx_get_data_addr(texture->img, &(texture->bpp),
-			&(texture->line_size), &(texture->endian));
-	if (!texture->data_addr)
-		return (1); */
-	dst = texture->data_addr + (cub->texy * texture->line_size + cub->texx * \
-	(texture->bpp / 8));
+	dst = texture->data_addr + (cub->texy * texture->line_size + cub->texx
+			* (texture->bpp / 8));
 	return (*(int *)dst);
 }
 
@@ -43,10 +52,11 @@ void	put_pixel(t_cub *cub, int x, int y, int color)
 
 void	put_x10(t_cub *cub, int x, int y, int color)
 {
-	int	tmpx = x;
-	int tmpy = y;
-//	int	tabsize;
-//	int	ok;
+	int	tmpx;
+	int	tmpy;
+
+	tmpx = x;
+	tmpy = y;
 	while (y < (tmpy + 6))
 	{
 		x = tmpx;
