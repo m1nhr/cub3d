@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 00:24:53 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/13 05:43:50 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,8 @@ void	display_minimap(t_cub *cub, int x, int y)
 		{
 			if (i == (int)cub->posy && y_tab == (int)cub->posx)
 				put_x10(cub, x, y, 0xFF0000);
-			else if (cub->map[y_tab][i] == '0' || !cub->map[y_tab][i]
-				|| (y_tab == start_pos(cub->map, 0)
-					&& i == start_pos(cub->map, 1)))
-				put_x10(cub, x, y, 0x13C6A2);
 			else if (cub->map[y_tab][i] && cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x000000);
+				put_x10(cub, x, y, 0x13C6A2);
 			x += 6;
 			i++;
 		}
@@ -41,34 +37,6 @@ void	display_minimap(t_cub *cub, int x, int y)
 		y_tab++;
 	}
 }
-/*
-void	ft_draw_texture(t_recup *recup, int x, int y)
-{
-	y = recup->ray.drawstart - 1;
-	ft_init_texture(recup);
-	recup->t.step = 1.0 * recup->texture[0].height / recup->ray.lineheight;
-	recup->t.texx = (int)(recup->t.wallx * (double)recup->texture
-			[recup->t.texdir].width);
-	if (recup->ray.side == 0 && recup->ray.raydirx > 0)
-		recup->t.texx = recup->texture[recup->t.texdir].width -
-			recup->t.texx - 1;
-	if (recup->ray.side == 1 && recup->ray.raydiry < 0)
-		recup->t.texx = recup->texture[recup->t.texdir].width -
-			recup->t.texx - 1;
-	recup->t.texpos = (recup->ray.drawstart - recup->ry / 2 +
-			recup->ray.lineheight / 2) * recup->t.step;
-	while (++y <= recup->ray.drawend)
-	{
-		recup->t.texy = (int)recup->t.texpos &
-			(recup->texture[recup->t.texdir].height - 1);
-		recup->t.texpos += recup->t.step;
-		if (y < recup->ry && x < recup->rx)
-			recup->data.addr[y * recup->data.line_length / 4 + x] =
-				recup->texture[recup->t.texdir].addr[recup->t.texy *
-					recup->texture[recup->t.texdir].line_length /
-					4 + recup->t.texx];
-	}
-}*/
 
 void	update_texture(t_cub *cub, int line_height)
 {
@@ -87,12 +55,62 @@ void	update_texture(t_cub *cub, int line_height)
 	(cub->draw_start - HEIGHT / 2 + line_height / 2) * cub->walk;
 }
 
+void	draw_total_frame(t_cub *cub, int x, int y, int lineheight)
+{
+	while (y < cub->draw_start)
+	{
+		put_pixel(cub, x, y, get_rgb(cub, 1));
+		y++;
+	}
+	update_texture(cub, lineheight);
+	while (y <= cub->draw_end && y >= cub->draw_start)
+	{
+		cub->texy = (int)cub->tex_pos;
+		cub->tex_pos += cub->walk;
+		if (cub->side == 0 && cub->raydirx < 0)
+			put_pixel(cub, x, y, get_color(cub, cub->texture1));
+		else if (cub->side == 0 && cub->raydirx >= 0)
+			put_pixel(cub, x, y, get_color(cub, cub->texture2));
+		else if (cub->side == 1 && cub->raydiry < 0)
+			put_pixel(cub, x, y, get_color(cub, cub->texture3));
+		else if (cub->side == 1 && cub->raydiry >= 0)
+			put_pixel(cub, x, y, get_color(cub, cub->texture4));
+		y++;
+	}
+	while (y < HEIGHT)
+	{
+		put_pixel(cub, x, y, get_rgb(cub, 0));
+		y++;
+	}
+}
+
+void	throw_rays(t_cub *cub)
+{
+	cub->hit = 0;
+	while (cub->hit == 0)
+	{
+		if (cub->sidedistx < cub->sidedisty)
+		{
+			cub->sidedistx += cub->deltadistx;
+			cub->mapx += cub->stepx;
+			cub->side = 0;
+		}
+		else
+		{
+			cub->sidedisty += cub->deltadisty;
+			cub->mapy += cub->stepy;
+			cub->side = 1;
+		}
+		if (cub->map[cub->mapx][cub->mapy] == '1')
+			cub->hit = 1;
+	}
+	return ;
+}
+ 
 int	display_game_frame(t_cub *cub)
 {
 	int	x;
-	int	y;
 	int	lineheight;
-	int	color;
 
 	x = 0;
 	while (x < WIGHT)
@@ -130,24 +148,7 @@ int	display_game_frame(t_cub *cub)
 			cub->stepy = 1;
 			cub->sidedisty = (cub->mapy + 1 - cub->posy) * cub->deltadisty;
 		}
-		cub->hit = 0;
-		while (cub->hit == 0)
-		{
-			if (cub->sidedistx < cub->sidedisty)
-			{
-				cub->sidedistx += cub->deltadistx;
-				cub->mapx += cub->stepx;
-				cub->side = 0;
-			}
-			else
-			{
-				cub->sidedisty += cub->deltadisty;
-				cub->mapy += cub->stepy;
-				cub->side = 1;
-			}
-			if (cub->map[cub->mapx][cub->mapy] == '1')
-				cub->hit = 1;
-		}
+		throw_rays(cub);
 		if (cub->side == 0)
 			cub->dist_to_wall = (cub->sidedistx - cub->deltadistx);
 		else
@@ -159,40 +160,10 @@ int	display_game_frame(t_cub *cub)
 		cub->draw_end = lineheight / 2 + HEIGHT / 2;
 		if (cub->draw_end >= HEIGHT)
 			cub->draw_end = HEIGHT - 1;
-		color = 0xFFFF00;
-		if (cub->side == 1)
-			color = color / 2;
-		y = 0;
-		while (y < cub->draw_start)
-		{
-			put_pixel(cub, x, y, 0x0000FF);
-			y++;
-		}
-		update_texture(cub, lineheight);
-		while (y <= cub->draw_end && y >= cub->draw_start)
-		{
- 			cub->texy = (int)cub->tex_pos;
-			cub->tex_pos += cub->walk;
-			
-			if (cub->side == 0 && cub->raydirx < 0)
- 				put_pixel(cub, x, y, get_color(cub, cub->texture1));
-			else if (cub->side == 0 && cub->raydirx >= 0)
-				put_pixel(cub, x, y, get_color(cub, cub->texture2));
-			else if (cub->side == 1 && cub->raydiry < 0)
-				put_pixel(cub, x, y, get_color(cub, cub->texture3));
-			else if (cub->side == 1 && cub->raydiry >= 0)
-				put_pixel(cub, x, y, get_color(cub, cub->texture4));
-		//	printf("ok\n");
-		//	put_pixel(cub, x, y, color);
-			y++;
-		}
-		while (y < HEIGHT)
-		{
-			put_pixel(cub, x, y, 0x808080);
-			y++;
-		}
+		draw_total_frame(cub, x, 0, lineheight);
 		x++;
 	}
+	mlx_mouse_move(cub->img->mlx, cub->img->win, 750 / 2, 750 / 2);
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
 	keymap_event(cub);

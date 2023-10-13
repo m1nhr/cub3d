@@ -48,7 +48,6 @@ typedef struct s_colors
 	int			blue;
 }				t_colors;
 
-
 typedef struct s_bool
 {
 	int			key;
@@ -65,9 +64,8 @@ typedef struct s_img
 	int			bpp;
 	int			line_size;
 	int			endian;
-//	int			width;
-//	int			height;
-
+	//	int			width;
+	//	int			height;
 
 }				t_img;
 
@@ -110,7 +108,7 @@ typedef struct s_cub
 	int			draw_start;
 	int			draw_end;
 	double		camerax;
-	char 		*NO;
+	char		*NO;
 	char		*SO;
 	char		*WE;
 	char		*EA;
@@ -119,7 +117,9 @@ typedef struct s_cub
 	int			texy;
 	double		tex_pos;
 	double		walk;
-
+	int			mouse_x;
+	int			cam_mouse_right;
+	int			cam_mouse_left;
 	t_bool		*move;
 	t_bool		*go_w;
 	t_bool		*go_s;
@@ -128,17 +128,15 @@ typedef struct s_cub
 	t_bool		*cam_right;
 	t_bool		*cam_left;
 	t_textures	t;
-	t_img			*img;
+	t_img		*img;
 	t_img		*texture1;
-	t_img			*texture2;
-	t_img			*texture3;
-	t_img			*texture4;
-	t_main			data;
+	t_img		*texture2;
+	t_img		*texture3;
+	t_img		*texture4;
+	t_main		*data;
 	t_colors	colors_ceiling;
 	t_colors	colors_floor;
 }				t_cub;
-
-
 
 /*PARSING DIRECTORY*/
 
@@ -167,26 +165,34 @@ int				init_map(t_parse_map *parser, char *map_name);
 //main cub
 void			go_cub(t_main *data);
 int				game_on(t_cub *cub);
+void			cam_movement(t_cub *cub, int key, double rt);
+void			user_movement(t_cub *cub, int key);
 
 //init
 void			init_value(t_cub *cub, t_main *data);
+void			init_pos(t_cub *cub);
 double			start_pos(char **tab, int ok);
-
+void			init_malloc_event(t_cub *cub);
+//event
+int    motion_mouse(int x, int y, t_cub *cub);
+int				key_release(int key, t_cub *cub);
+int				key_press(int key, t_cub *cub);
+void			keymap_event(t_cub *cub);
 //display
 int				display_game_frame(t_cub *cub);
-void			display_background(t_cub *cub);
+void			update_texture(t_cub *cub, int line_height);
 void			display_minimap(t_cub *cub, int x, int y);
-
 // im
+int				get_color(t_cub *cub, t_img *texture);
+int				get_rgb(t_cub *cub, int ok);
 void			put_pixel(t_cub *cub, int x, int y, int color);
-void			img_init(t_cub *cub);
 void			put_x10(t_cub *cub, int x, int y, int color);
-void			keymap_event(t_cub *cub);
-
+//ending
+int				close_window(t_cub *cub);
+void			free_cub_value(t_cub *cub);
 // utils
 int				what_lentab(char **tab);
 double			get_start_pos(t_cub *cub, int ok);
 float			ft_fabs(float i);
-int	get_color(t_cub *cub, t_img  *texture);
 
 #endif
