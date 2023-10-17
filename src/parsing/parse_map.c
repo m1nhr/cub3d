@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:52:04 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/03 17:55:07 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 00:49:21 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,13 @@ char	**fill_map(char **map)
 
 int	verif_around(char **map, int x, int y)
 {
-	if ((y == 0 || y == (int)ft_tablen(map)) && map[y][x] == '0')
+	if ((y == 0 || y == (int)ft_tablen(map) - 1) && (map[y][x] == '0'
+		|| ft_isalpha(map[y][x])))
 		return (printf("Error: map isn't closed\n"));
 	if (x == 0 && map[y][x] == '0')
 		return (printf("Error: map isn't closed"));
-	if (map[y][x] == '0')
+	if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'E'
+		|| map[y][x] == 'W' || map[y][x] == 'S')
 	{
 		if (y != (int)ft_tablen(map) - 1 && y != 0 && x != 0
 			&& x != (int)ft_strlen(map[y]) - 1)

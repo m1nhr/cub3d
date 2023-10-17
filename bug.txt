@@ -1,18 +1,2 @@
 -probleme inversement 'a' et 'd' selon langle de vue
--segfault si mur touche sur la droite apres demRAGE
 
-
--valid_map/duplicate_closed.cub
--valid_map/duplicate_horizontal.cub 
--valid_map/empty_closed_line.cub 
--valid_map/empty_line_wall.cub 
--valid_map/example.cub 
-
-enfait jetais entrain de test ces maps valide et toutes elles :
-"Error: missing textures or colors information"
-ducoup jsp si c'est normal
-
--si pas de pos (NEWS) de depart -> segfault
--pb crash si la size d'une ligne de la map > 38 characteres
-(peut etre pb de malloc a revoir)
-pas de pb avec le nombre de lignes dans la map
