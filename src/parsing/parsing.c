@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/03 17:02:51 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 00:28:55 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	find_map_start(char *str)
 			j++;
 		if (!strncmp(&str[i], "F ", 2) || !strncmp(&str[i], "C ", 2))
 			j++;
+		if (j == 6)
+			break ;
 		i++;
 	}
 	if (j != 6)
@@ -86,6 +88,11 @@ int	check_map_str(char *str)
 			return (-1);
 		}
 		i++;
+	}
+	if (j == 0)
+	{
+		printf("Error: no starting position\n");
+		return (-1);
 	}
 	return (0);
 }
