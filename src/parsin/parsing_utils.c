@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 19:00:47 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/03 17:55:23 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:05:42 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,10 @@ void	init_values(t_main *data)
 	data->parse_map->height = 0;
 	data->parse_map->width = 0;
 	data->parse_map->map_parse = NULL;
+	data->NO = NULL;
+	data->EA = NULL;
+	data->SO = NULL;
+	data->WE = NULL;
 }
 
 int	is_not_valid_char(char c)

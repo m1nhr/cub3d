@@ -6,11 +6,23 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:46:53 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 01:28:39 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:09:13 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+void	free_textures(t_main *data)
+{
+	if (data->NO)
+		free(data->NO);
+	if (data->EA)
+		free(data->EA);
+	if (data->SO)
+		free(data->SO);
+	if (data->WE)
+		free(data->WE);
+}
 
 int	init_textures(t_main *data, char **map)
 {
@@ -40,12 +52,15 @@ int	init_textures(t_main *data, char **map)
 
 int	get_textures2(t_main *data, char *str, int i)
 {
+	char	*s1;
+
 	if (!ft_strncmp(&str[i], "SO ", 3))
 	{
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->SO = &str[i];
+		s1 = ft_strtrim(&str[i], " ");
+		data->SO = s1;
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "WE ", 3))
@@ -53,7 +68,8 @@ int	get_textures2(t_main *data, char *str, int i)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->WE = &str[i];
+		s1 = ft_strtrim(&str[i], " ");
+		data->WE = s1;
 		return (1);
 	}
 	else
@@ -62,7 +78,8 @@ int	get_textures2(t_main *data, char *str, int i)
 
 int	get_textures(t_main *data, char *str)
 {
-	int	i;
+	int		i;
+	char	*s1;
 
 	i = 0;
 	while (str[i] == ' ' || str[i] == '\t')
@@ -72,7 +89,8 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->NO = &str[i];
+		s1 = ft_strtrim(&str[i], " ");
+		data->NO = s1;
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "EA ", 3))
@@ -80,7 +98,8 @@ int	get_textures(t_main *data, char *str)
 		i += 3;
 		while (str[i] == ' ')
 			i++;
-		data->EA = &str[i];
+		s1 = ft_strtrim(&str[i], " ");
+		data->EA = s1;
 		return (1);
 	}
 	return (get_textures2(data, str, i));

@@ -163,6 +163,7 @@ int				check_map_str(char *str);
 int				get_textures(t_main *data, char *str);
 int				init_textures(t_main *data, char **map);
 int				init_map(t_parse_map *parser, char *map_name);
+void			free_textures(t_main *data);
 
 //main cub
 void			go_cub(t_main *data);
