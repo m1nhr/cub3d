@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:05:29 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 05:20:56 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:16:46 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	motion_mouse(int x, int y, t_cub *cub)
 	int	previous_x;
 
 	(void)y;
-	cub->mouse_x = 750 / 2;
+	cub->mouse_x = WIDTH / 2;
 	previous_x = cub->mouse_x;
 	cub->mouse_x = x;
 	if (cub->mouse_x > previous_x)
@@ -88,8 +88,8 @@ void	keymap_event(t_cub *cub)
 	if (cub->cam_right->ok == TRUE)
 		cam_movement(cub, 65361, 0.02);
 	if (cub->cam_mouse_left == TRUE && cub->mouse_on == 0)
-		cam_movement(cub, 65361, 0.025);
+		cam_movement(cub, 65361, 0.02);
 	if (cub->cam_mouse_right == TRUE && cub->mouse_on == 0)
-		cam_movement(cub, 65363, 0.025);
+		cam_movement(cub, 65363, 0.02);
 	return ;
 }

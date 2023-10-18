@@ -14,9 +14,7 @@
 # include <unistd.h>
 
 # define HEIGHT 750
-# define WIGHT 750
-# define texwidth 64
-# define texheight 64
+# define WIDTH 750
 # define TRUE 1
 # define FALSE 0
 
@@ -64,9 +62,6 @@ typedef struct s_img
 	int			bpp;
 	int			line_size;
 	int			endian;
-	//	int			width;
-	//	int			height;
-
 }				t_img;
 
 typedef struct s_main
@@ -75,7 +70,6 @@ typedef struct s_main
 	t_parse_map	*parse_map;
 	t_colors	colors_floor;
 	t_colors	colors_ceiling;
-
 	char		*NO;
 	char		*SO;
 	char		*WE;
@@ -141,7 +135,6 @@ typedef struct s_cub
 }				t_cub;
 
 /*PARSING DIRECTORY*/
-
 int				check_format(char *s);
 int				check_args(int argc, char *av[]);
 int				parsing(int argc, char *argv[], t_main *data);
@@ -165,11 +158,10 @@ int				init_textures(t_main *data, char **map);
 int				init_map(t_parse_map *parser, char *map_name);
 void			free_textures(t_main *data);
 
-//main cub
+/*RAYCASTING DIRECTORY*/
 void			go_cub(t_main *data);
 //init
 void			init_value(t_cub *cub, t_main *data);
-double			start_pos(char **tab, int ok);
 //event
 int				motion_mouse(int x, int y, t_cub *cub);
 int				key_release(int key, t_cub *cub);

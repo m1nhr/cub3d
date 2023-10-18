@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 07:31:46 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 05:18:38 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 07:14:14 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ void	error_void(char *str)
 	ft_putendl_fd(str, 1);
 	exit (1);
 }
-
 
 float	ft_fabs(float i)
 {

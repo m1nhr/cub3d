@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 05:17:57 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:16:18 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ int	mlx_stuff(t_cub *cub)
 	cub->img->mlx = mlx_init();
 	if (!cub->img->mlx)
 		return (error_ok("Error mlx_init", 1));
-	cub->img->win = mlx_new_window(cub->img->mlx, 750, 750, "CUB3D");
+	cub->img->win = mlx_new_window(cub->img->mlx, HEIGHT, WIDTH, "CUB3D");
 	if (!cub->img->win)
 		return (error_ok("Error mlx_win", 1));
-	cub->img->img = mlx_new_image(cub->img->mlx, HEIGHT, WIGHT);
+	cub->img->img = mlx_new_image(cub->img->mlx, HEIGHT, WIDTH);
 	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
 			&(cub->img->line_size), &(cub->img->endian));
 	return (0);
@@ -87,12 +87,12 @@ void	go_cub(t_main *data)
 	get_texture(&cub);
 	mlx_hook(cub.img->win, KeyPress, KeyPressMask, &key_press, &cub);
 	mlx_hook(cub.img->win, MotionNotify, PointerMotionMask, &motion_mouse, &cub);
-	//	mlx_do_key_autorepeaton(cub.mlx);
+//	mlx_do_key_autorepeaton(cub.mlx);
 	mlx_hook(cub.img->win, KeyRelease, KeyReleaseMask, &key_release, &cub);
 	mlx_hook(cub.img->win, DestroyNotify, 0, &close_window, &cub);
 	if (cub.mouse_on == 0)
 		mlx_mouse_hide(cub.img->mlx, cub.img->win);
 	mlx_loop_hook(cub.img->mlx, &display_game_frame, &cub);
 	mlx_loop(cub.img->mlx);
-	//	mlx_do_key_autorepeatoff(cub.mlx);
+//	mlx_do_key_autorepeatoff(cub.mlx);
 }

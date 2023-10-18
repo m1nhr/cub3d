@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_raytracing.c                                  :+:      :+:    :+:   */
+/*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 04:57:47 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:28:47 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,8 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->map = data->map;
 	cub->colors_ceiling = data->colors_ceiling;
 	cub->colors_floor = data->colors_floor;
-	cub->posx = start_pos(cub->map, 0);
-	cub->posy = start_pos(cub->map, 1);
+	cub->posx = start_pos(cub->map, 0) + 0.5;
+	cub->posy = start_pos(cub->map, 1) + 0.5;
 	cub->NO = ft_strdup(data->NO);
 	cub->SO = ft_strdup(data->SO);
 	cub->WE = ft_strdup(data->WE);

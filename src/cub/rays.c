@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 03:06:11 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 03:11:40 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:25:18 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_raydir_delta(t_cub *cub, int x)
 {
-	cub->camerax = 2 * x / (double)WIGHT - 1;
+	cub->camerax = 2 * x / (double)WIDTH - 1;
 	cub->raydirx = cub->dirx + cub->planex * cub->camerax;
 	cub->raydiry = cub->diry + cub->planey * cub->camerax;
 	if (cub->raydirx != 0)
