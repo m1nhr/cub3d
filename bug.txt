@@ -1,2 +1,2 @@
 -probleme inversement 'a' et 'd' selon langle de vue
-
+- invalid path pour les textures

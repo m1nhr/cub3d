@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:52:04 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 00:49:21 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:39:26 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,9 @@ int	verif_around(char **map, int x, int y)
 {
 	if ((y == 0 || y == (int)ft_tablen(map) - 1) && (map[y][x] == '0'
 		|| ft_isalpha(map[y][x])))
-		return (printf("Error: map isn't closed\n"));
+		return (printf("Error\nMap isn't closed\n"));
 	if (x == 0 && map[y][x] == '0')
-		return (printf("Error: map isn't closed"));
+		return (printf("Error\nMap isn't closed"));
 	if (map[y][x] == '0' || map[y][x] == 'N' || map[y][x] == 'E'
 		|| map[y][x] == 'W' || map[y][x] == 'S')
 	{
@@ -74,9 +74,9 @@ int	verif_around(char **map, int x, int y)
 			&& x != (int)ft_strlen(map[y]) - 1)
 		{
 			if (map[y - 1][x] == ' ' || map[y + 1][x] == ' ')
-				return (printf("Error: map isn't closed\n"));
+				return (printf("Error\nMap isn't closed\n"));
 			if (map[y][x - 1] == ' ' || map[y][x + 1] == ' ')
-				return (printf("Error: map isn't closed\n"));
+				return (printf("Error\nMap isn't closed\n"));
 		}
 	}
 	return (0);

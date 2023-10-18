@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/18 03:14:42 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:43:21 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,12 @@ int	check_args(int argc, char *av[])
 	int	fd;
 
 	if (argc == 1 || argc > 2)
-		return (printf("Error: Invalid number of arguments\n"));
+		return (printf("Error\nInvalid number of arguments\n"));
 	if (!check_format(av[1]))
-		return (printf("Error: %s isn't a .cub file\n", av[1]));
+		return (printf("Error\n%s isn't a .cub file\n", av[1]));
 	fd = open(av[1], O_DIRECTORY);
 	if (fd != -1)
-		return (printf("Error: %s is a directory\n", av[1]));
+		return (printf("Error\n%s is a directory\n", av[1]));
 	fd = open(av[1], O_RDONLY);
 	if ((fd < 0))
 	{
@@ -52,7 +52,7 @@ int	find_map_start(char *str)
 	}
 	if (j != 6)
 	{
-		printf("\nError: missing textures or colors information\n");
+		printf("\nError\nMissing textures or colors information\n");
 		exit (1);
 	}
 	while (str[i] && str[i] != '\n')
@@ -72,7 +72,7 @@ int	check_map_str(char *str)
 	while (str[++i])
 	{
 		if (str[i] == '\n' && str[i + 1] == '\n')
-			printf("Error: empty line in map\n");
+			printf("Error\nEmpty line in map\n");
 		if (str[i] == '\n' && str[i + 1] == '\n')
 			return (-1);
 		if (is_not_valid_char(str[i]))
@@ -80,12 +80,12 @@ int	check_map_str(char *str)
 		if (ft_isalpha(str[i]))
 			j++;
 		if (j > 1)
-			printf("Error: two starting positions\n");
+			printf("Error\nTwo starting positions\n");
 		if (j > 1)
 			return (-1);
 	}
 	if (j == 0)
-		printf("Error: no starting position\n");
+		printf("Error\nNo starting position\n");
 	if (j == 0)
 		return (-1);
 	return (0);
@@ -117,6 +117,11 @@ int	parsing(int argc, char *argv[], t_main *data)
 		return (-1);
 	if (init_data(data, argv[1]) == -1)
 		return (-1);
+	if (check_textures(data) == -1)
+	{
+		free_textures(data);
+		return (-1);
+	}
 	return (0);
 }
 

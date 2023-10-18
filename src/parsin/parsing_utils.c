@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 19:00:47 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 03:05:42 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:40:12 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,6 @@ int	is_not_valid_char(char c)
 		return (0);
 	if (c == 'N' || c == 'W' || c == 'E' || c == 'S')
 		return (0);
-	printf("Error: map has invalid char: '%c'\n", c);
+	printf("Error\nMap has invalid char: '%c'\n", c);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:44:28 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 00:58:33 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:39:03 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@ void	check_colors(t_main *data, t_colors colors)
 {
 	if (colors.red < 0 || colors.red > 255)
 	{
-		printf("Error: %d is an invalid color value\n", colors.red);
+		printf("Error\n%d is an invalid color value\n", colors.red);
 		free_tab(data->parse_map->map_parse);
 		free(data->parse_map);
 		exit(1);
 	}
 	if (colors.green < 0 || colors.green > 255)
 	{
-		printf("Error: %d is an invalid color value\n", colors.green);
+		printf("Error\n%d is an invalid color value\n", colors.green);
 		free_tab(data->parse_map->map_parse);
 		free(data->parse_map);
 		exit(1);
 	}
 	if (colors.blue < 0 || colors.blue > 255)
 	{
-		printf("Error: %d is an invalid color value\n", colors.blue);
+		printf("Error\n%d is an invalid color value\n", colors.blue);
 		free_tab(data->parse_map->map_parse);
 		free(data->parse_map);
 		exit(1);
@@ -52,7 +52,7 @@ void	check_colors_str(t_main *data, char **tab)
 				j++;
 			if (!ft_isdigit(tab[i][j]))
 			{
-				printf("Error: non digit character in colors : %c\n", tab[i][j]);
+				printf("Error\nnon digit character in colors : %c\n", tab[i][j]);
 				free_tab(tab);
 				free_tab(data->parse_map->map_parse);
 				free(data->parse_map);
