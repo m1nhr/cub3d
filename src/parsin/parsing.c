@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/18 00:28:55 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:14:42 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	find_map_start(char *str)
 
 	i = 0;
 	j = 0;
-	while (str[i])
+	while (str[i] && j < 6)
 	{
 		if (!strncmp(&str[i], "NO ", 3) || !strncmp(&str[i], "SO ", 3))
 			j++;
@@ -48,8 +48,6 @@ int	find_map_start(char *str)
 			j++;
 		if (!strncmp(&str[i], "F ", 2) || !strncmp(&str[i], "C ", 2))
 			j++;
-		if (j == 6)
-			break ;
 		i++;
 	}
 	if (j != 6)
@@ -70,30 +68,26 @@ int	check_map_str(char *str)
 	int	j;
 
 	j = 0;
-	i = find_map_start(str);
-	while (str[i])
+	i = find_map_start(str) - 1;
+	while (str[++i])
 	{
 		if (str[i] == '\n' && str[i + 1] == '\n')
-		{
 			printf("Error: empty line in map\n");
+		if (str[i] == '\n' && str[i + 1] == '\n')
 			return (-1);
-		}
 		if (is_not_valid_char(str[i]))
 			return (-1);
 		if (ft_isalpha(str[i]))
 			j++;
 		if (j > 1)
-		{
 			printf("Error: two starting positions\n");
+		if (j > 1)
 			return (-1);
-		}
-		i++;
 	}
 	if (j == 0)
-	{
 		printf("Error: no starting position\n");
+	if (j == 0)
 		return (-1);
-	}
 	return (0);
 }
 
@@ -109,6 +103,7 @@ int	init_data(t_main *data, char *map_name)
 	data->map = data->parse_map->map;
 	if (!init_textures(data, data->parse_map->map_parse))
 	{
+		free_textures(data);
 		free_tab(data->parse_map->map_parse);
 		free(data->parse_map);
 		return (-1);
