@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:44:28 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/03 17:04:32 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 00:58:33 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,24 @@ void	check_colors_str(t_main *data, char **tab)
 	}
 }
 
+void	add_colors(t_main *data, char **tab, char c)
+{
+	if (c == 'C')
+	{
+		data->colors_ceiling.red = ft_atoi(tab[0]);
+		data->colors_ceiling.green = ft_atoi(tab[1]);
+		data->colors_ceiling.blue = ft_atoi(tab[2]);
+		check_colors(data, data->colors_ceiling);
+	}
+	if (c == 'F')
+	{
+		data->colors_floor.red = ft_atoi(tab[0]);
+		data->colors_floor.green = ft_atoi(tab[1]);
+		data->colors_floor.blue = ft_atoi(tab[2]);
+		check_colors(data, data->colors_floor);
+	}
+}
+
 int	get_colors(t_main *data, char *str)
 {
 	int		i;
@@ -76,24 +94,18 @@ int	get_colors(t_main *data, char *str)
 	{
 		i += 2;
 		tab = ft_split(&str[i], ',');
-		data->colors_ceiling.red = ft_atoi(tab[0]);
-		data->colors_ceiling.green = ft_atoi(tab[1]);
-		data->colors_ceiling.blue = ft_atoi(tab[2]);
+		add_colors(data, tab, 'C');
 		check_colors_str(data, tab);
 		free_tab(tab);
-		check_colors(data, data->colors_ceiling);
 		return (1);
 	}
 	if (!strncmp(&str[i], "F ", 2))
 	{
 		i += 2;
 		tab = ft_split(&str[i], ',');
-		data->colors_floor.red = ft_atoi(tab[0]);
-		data->colors_floor.green = ft_atoi(tab[1]);
-		data->colors_floor.blue = ft_atoi(tab[2]);
+		add_colors(data, tab, 'F');
 		check_colors_str(data, tab);
 		free_tab(tab);
-		check_colors(data, data->colors_floor);
 		return (1);
 	}
 	return (0);

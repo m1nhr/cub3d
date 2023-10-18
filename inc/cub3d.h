@@ -106,6 +106,7 @@ typedef struct s_cub
 	int			hit;
 	int			side;
 	double		dist_to_wall;
+	double		lineheight;
 	int			draw_start;
 	int			draw_end;
 	double		camerax;
@@ -183,6 +184,19 @@ void			keymap_event(t_cub *cub);
 int				display_game_frame(t_cub *cub);
 void			update_texture(t_cub *cub, int line_height);
 void			display_minimap(t_cub *cub, int x, int y);
+//rays
+void	init_raydir_delta(t_cub *cub, int x);
+void	init_sidedist(t_cub *cub);
+void	throw_rays(t_cub *cub);
+//draw
+void	draw_total_frame(t_cub *cub, int x, int y, int lineheight);
+void	get_draw_point(t_cub *cub);
+void	update_texture(t_cub *cub, int line_height);
+
+//move
+void	cam_movement(t_cub *cub, int key, double rt);
+void	user_movement(t_cub *cub, int key);
+
 // im
 int				get_color(t_cub *cub, t_img *texture);
 int				get_rgb(t_cub *cub, int ok);
