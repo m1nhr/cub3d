@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 07:31:46 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/06 05:02:21 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 05:18:38 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,32 +22,38 @@ int	what_lentab(char **tab)
 	return (i);
 }
 
-double	get_start_pos(t_cub *cub, int ok)
+double	start_pos(char **tab, int ok)
 {
-	double	x;
 	double	y;
+	double	x;
 	char	*finder;
 
+	x = 0;
 	finder = "NESW";
-	y = 0;
-
-	while (cub->map[(int)y])
+	while (tab[(int)x])
 	{
-		x = 0;
-		while (cub->map[(int)y][(int)x])
+		y = 0;
+		while (tab[(int)x][(int)y])
 		{
-			if (ft_strchr(finder, cub->map[(int)y][(int)x]))
+			if (ft_strchr(finder, tab[(int)x][(int)y]))
 			{
 				if (ok)
-					return (x);
-				return (y);
+					return (y);
+				return (x);
 			}
-			x++;
+			y++;
 		}
-		y++;
+		x++;
 	}
 	return (0);
 }
+
+void	error_void(char *str)
+{
+	ft_putendl_fd(str, 1);
+	exit (1);
+}
+
 
 float	ft_fabs(float i)
 {

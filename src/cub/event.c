@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   event.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:05:29 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 07:24:28 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 05:20:56 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-int    motion_mouse(int x, int y, t_cub *cub)
+int	motion_mouse(int x, int y, t_cub *cub)
 {
 	int	previous_x;
 
@@ -30,27 +30,6 @@ int    motion_mouse(int x, int y, t_cub *cub)
 		cub->cam_mouse_right = FALSE;
 	}
 	return (0);
-}
-
-void    keymap_event(t_cub *cub)
-{
-	if (cub->go_w->ok == TRUE)
-		user_movement(cub, 119);
-	if (cub->go_s->ok == TRUE)
-		user_movement(cub, 115);
-	if (cub->go_a->ok == TRUE)
-		user_movement(cub, 97);
-	if (cub->go_d->ok == TRUE)
-		user_movement(cub, 100);
-	if (cub->cam_left->ok == TRUE)
-		cam_movement(cub, 65363, 0.02);
-	if (cub->cam_right->ok == TRUE)
-		cam_movement(cub, 65361, 0.02);
-	if (cub->cam_mouse_left == TRUE && cub->mouse_on == 0)
-		cam_movement(cub, 65361, 0.025);
-	if (cub->cam_mouse_right == TRUE  && cub->mouse_on == 0)
-		cam_movement(cub, 65363, 0.025);
-	return ;
 }
 
 int	key_press(int key, t_cub *cub)
@@ -92,4 +71,25 @@ int	key_release(int key, t_cub *cub)
 	if (key == 65361)
 		cub->cam_right->ok = FALSE;
 	return (0);
+}
+
+void	keymap_event(t_cub *cub)
+{
+	if (cub->go_w->ok == TRUE)
+		user_movement(cub, 119);
+	if (cub->go_s->ok == TRUE)
+		user_movement(cub, 115);
+	if (cub->go_a->ok == TRUE)
+		user_movement(cub, 97);
+	if (cub->go_d->ok == TRUE)
+		user_movement(cub, 100);
+	if (cub->cam_left->ok == TRUE)
+		cam_movement(cub, 65363, 0.02);
+	if (cub->cam_right->ok == TRUE)
+		cam_movement(cub, 65361, 0.02);
+	if (cub->cam_mouse_left == TRUE && cub->mouse_on == 0)
+		cam_movement(cub, 65361, 0.025);
+	if (cub->cam_mouse_right == TRUE && cub->mouse_on == 0)
+		cam_movement(cub, 65363, 0.025);
+	return ;
 }

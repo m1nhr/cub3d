@@ -6,11 +6,24 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 19:24:48 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/18 03:00:42 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 04:26:57 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
+
+void	draw_intro(void)
+{
+	ft_putendl_fd(" ----------------------------------------- ", 1);
+	ft_putendl_fd("| ██████╗██╗   ██╗██████╗ ██████╗ ██████╗ |", 1);
+	ft_putendl_fd("|██╔════╝██║   ██║██╔══██╗╚════██╗██╔══██╗|", 1);
+	ft_putendl_fd("|██║     ██║   ██║██████╔╝ █████╔╝██║  ██║|", 1);
+	ft_putendl_fd("|██║     ██║   ██║██╔══██╗ ╚═══██╗██║  ██║|", 1);
+	ft_putendl_fd("|╚██████╗╚██████╔╝██████╔╝██████╔╝██████╔╝|", 1);
+	ft_putendl_fd("| ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝ ╚═════╝ |", 1);
+	ft_putendl_fd(" ----------------------------------------- ", 1);
+	ft_putendl_fd("v1.0 2023 | Copyright TTM/RMM | Do not distribute!\n", 1);
+}
 
 int	main(int argc, char *argv[])
 {
@@ -18,6 +31,7 @@ int	main(int argc, char *argv[])
 
 	if (parsing(argc, argv, &data) == -1)
 		return (0);
+	draw_intro();
 	go_cub(&data);
 	return (0);
 }
