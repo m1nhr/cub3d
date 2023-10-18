@@ -1,61 +1,48 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_raytracing.c                                  :+:      :+:    :+:   */
+/*   init_raycasting.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/13 07:17:30 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:28:47 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-double	start_pos(char **tab, int ok)
-{
-	double	y;
-	double	x;
-	char	*finder;
-
-	x = 0;
-	finder = "NESW";
-	while (tab[(int)x])
-	{
-		y = 0;
-		while (tab[(int)x][(int)y])
-		{
-			if (ft_strchr(finder, tab[(int)x][(int)y]))
-			{
-				if (ok)
-					return (y);
-				return (x);
-			}
-			y++;
-		}
-		x++;
-	}
-	return (0);
-}
 
 void	init_malloc_event(t_cub *cub)
 {
 	cub->go_w = malloc(sizeof(t_bool));
+	if (!cub->go_w)
+		error_alloc(cub, "Error alloc go_w");
 	cub->go_w->key = 119;
 	cub->go_w->ok = FALSE;
 	cub->go_s = malloc(sizeof(t_bool));
+	if (!cub->go_s)
+		error_alloc(cub, "Error alloc go_s");
 	cub->go_s->key = 115;
 	cub->go_s->ok = FALSE;
 	cub->go_a = malloc(sizeof(t_bool));
+	if (!cub->go_a)
+		error_alloc(cub, "Error alloc go_a");
 	cub->go_a->key = 97;
 	cub->go_a->ok = FALSE;
 	cub->go_d = malloc(sizeof(t_bool));
+	if (!cub->go_d)
+		error_alloc(cub, "Error alloc go_d");
 	cub->go_d->key = 100;
 	cub->go_d->ok = FALSE;
 	cub->cam_left = malloc(sizeof(t_bool));
+	if (!cub->cam_left)
+		error_alloc(cub, "Error alloc cam_left");
 	cub->cam_left->key = 65363;
 	cub->cam_left->ok = FALSE;
 	cub->cam_right = malloc(sizeof(t_bool));
+	if (!cub->cam_right)
+		error_alloc(cub, "Error alloc cam_right");
 	cub->cam_right->key = 65361;
 	cub->cam_right->ok = FALSE;
 	cub->cam_mouse_right = 0;
@@ -106,8 +93,8 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->map = data->map;
 	cub->colors_ceiling = data->colors_ceiling;
 	cub->colors_floor = data->colors_floor;
-	cub->posx = start_pos(cub->map, 0);
-	cub->posy = start_pos(cub->map, 1);
+	cub->posx = start_pos(cub->map, 0) + 0.5;
+	cub->posy = start_pos(cub->map, 1) + 0.5;
 	cub->NO = ft_strdup(data->NO);
 	cub->SO = ft_strdup(data->SO);
 	cub->WE = ft_strdup(data->WE);
@@ -120,10 +107,4 @@ void	init_value(t_cub *cub, t_main *data)
 	cub->mouse_on = 0;
 	init_pos(cub);
 	init_malloc_event(cub);
-	int	i = 0;
-	while (cub->map[i])
-	{
-		fprintf(stderr, "%s = %d\n", cub->map[i], i);
-		i++;
-	}
 }

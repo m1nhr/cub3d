@@ -6,57 +6,27 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 03:02:22 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 03:05:41 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:33:57 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	user_d_movement(t_cub *cub, double m)
+void	user_lateral_movement(t_cub *cub, int key, double m)
 {
-	if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > -1.5
-				&& cub->diry < -0.5)) || ((cub->dirx > -0.5 && cub->dirx
-				< 0.5) && (cub->diry > 0.5 && cub->diry < 1.5)))
+	if (key == cub->go_d->key)
 	{
-		if (cub->map[(int)(cub->posx + cub->diry
-				* m)][(int)(cub->posy)] != '1')
-			cub->posx += cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
-				* m)] != '1')
-			cub->posy += cub->dirx * m;
+		if (cub->map[(int)(cub->posx + cub->planex * m)][(int)(cub->posy)] != '1')
+			cub->posx += cub->planex * m;
+		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->planey * m)] != '1')
+			cub->posy += cub->planey * m;
 	}
-	else
+	else if (key == cub->go_a->key)
 	{
-		if (cub->map[(int)(cub->posx - cub->diry
-				* m)][(int)(cub->posy)] != '1')
-			cub->posx -= cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
-				* m)] != '1')
-			cub->posy -= cub->dirx * m;
-	}
-}
-
-void	user_a_movement(t_cub *cub, double m)
-{
-	if (((cub->dirx > -0.5 && cub->dirx < 0.5) && (cub->diry > 0.5
-				&& cub->diry < 1.5)) || ((cub->dirx > -0.5 && cub->dirx
-				< 0.3) && (cub->diry > -1.5 && cub->diry < -0.5)))
-	{
-		if (cub->map[(int)(cub->posx - cub->diry
-				* m)][(int)(cub->posy)] != '1')
-			cub->posx -= cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->dirx
-				* m)] != '1')
-			cub->posy -= cub->dirx * m;
-	}
-	else
-	{
-		if (cub->map[(int)(cub->posx + cub->diry
-				* m)][(int)(cub->posy)] != '1')
-			cub->posx += cub->diry * m;
-		if (cub->map[(int)(cub->posx)][(int)(cub->posy + cub->dirx
-				* m)] != '1')
-			cub->posy += cub->dirx * m;
+		if (cub->map[(int)(cub->posx - cub->planex * m)][(int)(cub->posy)] != '1')
+			cub->posx -= cub->planex * m;
+		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->planey * m)] != '1')
+			cub->posy -= cub->planey * m;
 	}
 }
 
@@ -64,7 +34,7 @@ void	user_movement(t_cub *cub, int key)
 {
 	double	m;
 
-	m = 0.03;
+	m = 0.025;
 	if (key == cub->go_w->key)
 	{
 		if (cub->map[(int)(cub->posx + cub->dirx * m)][(int)(cub->posy)] != '1')
@@ -79,10 +49,8 @@ void	user_movement(t_cub *cub, int key)
 		if (cub->map[(int)(cub->posx)][(int)(cub->posy - cub->diry * m)] != '1')
 			cub->posy -= cub->diry * m;
 	}
-	else if (key == cub->go_a->key)
-		user_a_movement(cub, m);
-	else if (key == cub->go_d->key)
-		user_d_movement(cub, m);
+	else if (key == cub->go_a->key || key == cub->go_d->key)
+		user_lateral_movement(cub, key, m);
 }
 
 void	cam_movement(t_cub *cub, int key, double rt)

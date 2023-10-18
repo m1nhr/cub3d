@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 03:15:43 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/18 10:23:00 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	display_game_frame(t_cub *cub)
 	int	x;
 
 	x = 0;
-	while (x < WIGHT)
+	while (x < WIDTH)
 	{
 		init_raydir_delta(cub, x);
 		init_sidedist(cub);
@@ -53,9 +53,11 @@ int	display_game_frame(t_cub *cub)
 		x++;
 	}
 	if (cub->mouse_on == 0)
-		mlx_mouse_move(cub->img->mlx, cub->img->win, 750 / 2, 750 / 2);
+		mlx_mouse_move(cub->img->mlx, cub->img->win, HEIGHT / 2, WIDTH / 2);
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
-	keymap_event(cub);
+	keymap_event(cub);	
+	//fprintf(stderr, "coord>[%f][%f] +  dirx = %f & diry = %f\n", cub->posy, cub->posx, cub->dirx, cub->diry);
+
 	return (0);
 }

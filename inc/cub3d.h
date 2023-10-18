@@ -14,9 +14,7 @@
 # include <unistd.h>
 
 # define HEIGHT 750
-# define WIGHT 750
-# define texwidth 64
-# define texheight 64
+# define WIDTH 750
 # define TRUE 1
 # define FALSE 0
 
@@ -64,9 +62,6 @@ typedef struct s_img
 	int			bpp;
 	int			line_size;
 	int			endian;
-	//	int			width;
-	//	int			height;
-
 }				t_img;
 
 typedef struct s_main
@@ -75,7 +70,6 @@ typedef struct s_main
 	t_parse_map	*parse_map;
 	t_colors	colors_floor;
 	t_colors	colors_ceiling;
-
 	char		*NO;
 	char		*SO;
 	char		*WE;
@@ -141,7 +135,6 @@ typedef struct s_cub
 }				t_cub;
 
 /*PARSING DIRECTORY*/
-
 int				check_format(char *s);
 int				check_args(int argc, char *av[]);
 int				parsing(int argc, char *argv[], t_main *data);
@@ -166,50 +159,40 @@ int				init_map(t_parse_map *parser, char *map_name);
 void			free_textures(t_main *data);
 int				check_textures(t_main *data);
 
-//main cub
+/*RAYCASTING DIRECTORY*/
 void			go_cub(t_main *data);
-int				game_on(t_cub *cub);
-void			cam_movement(t_cub *cub, int key, double rt);
-void			user_movement(t_cub *cub, int key);
-
 //init
 void			init_value(t_cub *cub, t_main *data);
-void			init_pos(t_cub *cub);
-double			start_pos(char **tab, int ok);
-void			init_malloc_event(t_cub *cub);
 //event
-int    motion_mouse(int x, int y, t_cub *cub);
+int				motion_mouse(int x, int y, t_cub *cub);
 int				key_release(int key, t_cub *cub);
 int				key_press(int key, t_cub *cub);
 void			keymap_event(t_cub *cub);
 //display
 int				display_game_frame(t_cub *cub);
-void			update_texture(t_cub *cub, int line_height);
-void			display_minimap(t_cub *cub, int x, int y);
 //rays
-void	init_raydir_delta(t_cub *cub, int x);
-void	init_sidedist(t_cub *cub);
-void	throw_rays(t_cub *cub);
+void			init_raydir_delta(t_cub *cub, int x);
+void			init_sidedist(t_cub *cub);
+void			throw_rays(t_cub *cub);
 //draw
-void	draw_total_frame(t_cub *cub, int x, int y, int lineheight);
-void	get_draw_point(t_cub *cub);
-void	update_texture(t_cub *cub, int line_height);
-
+void			draw_total_frame(t_cub *cub, int x, int y, int lineheight);
+void			get_draw_point(t_cub *cub);
 //move
-void	cam_movement(t_cub *cub, int key, double rt);
-void	user_movement(t_cub *cub, int key);
-
-// im
+void			cam_movement(t_cub *cub, int key, double rt);
+void			user_movement(t_cub *cub, int key);
+//img
 int				get_color(t_cub *cub, t_img *texture);
 int				get_rgb(t_cub *cub, int ok);
 void			put_pixel(t_cub *cub, int x, int y, int color);
 void			put_x10(t_cub *cub, int x, int y, int color);
 //ending
 int				close_window(t_cub *cub);
-void			free_cub_value(t_cub *cub);
+void			error_alloc(t_cub *cub, char *str);
+int				error_ok(char *str, int ok);
 // utils
 int				what_lentab(char **tab);
-double			get_start_pos(t_cub *cub, int ok);
+double			start_pos(char **tab, int ok);
+void			error_void(char *str);
 float			ft_fabs(float i);
 
 #endif
