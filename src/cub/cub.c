@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 10:16:18 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 01:42:54 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,12 @@ void	go_cub(t_main *data)
 		return ;
 	get_texture(&cub);
 	mlx_hook(cub.img->win, KeyPress, KeyPressMask, &key_press, &cub);
-	mlx_hook(cub.img->win, MotionNotify, PointerMotionMask, &motion_mouse, &cub);
-//	mlx_do_key_autorepeaton(cub.mlx);
+	mlx_hook(cub.img->win, MotionNotify, PointerMotionMask,
+		&motion_mouse, &cub);
 	mlx_hook(cub.img->win, KeyRelease, KeyReleaseMask, &key_release, &cub);
 	mlx_hook(cub.img->win, DestroyNotify, 0, &close_window, &cub);
 	if (cub.mouse_on == 0)
 		mlx_mouse_hide(cub.img->mlx, cub.img->win);
 	mlx_loop_hook(cub.img->mlx, &display_game_frame, &cub);
 	mlx_loop(cub.img->mlx);
-//	mlx_do_key_autorepeatoff(cub.mlx);
 }

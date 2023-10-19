@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:05:29 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 10:16:46 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 01:46:05 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ int	key_press(int key, t_cub *cub)
 		cub->mouse_on = 1;
 	if (key == XK_v)
 		cub->mouse_on = 0;
-	display_game_frame(cub);
 	return (0);
 }
 
