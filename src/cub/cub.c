@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/19 01:42:54 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:45:47 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	get_texture_dig(t_cub *cub, int h, int w)
 	cub->texture3 = ft_calloc(1, sizeof(t_img));
 	if (!cub->texture3)
 		error_alloc(cub, "Error alloc texture3");
-	cub->texture3->img = mlx_xpm_file_to_image(cub->img->mlx, cub->WE, &w, &h);
+	cub->texture3->img = mlx_xpm_file_to_image(cub->img->mlx, cub->swe, &w, &h);
 	if (!cub->texture3->img)
 		return (error_void("Error texture3->img"));
 	cub->texture3->data_addr = mlx_get_data_addr(cub->texture3->img,
@@ -26,7 +26,7 @@ void	get_texture_dig(t_cub *cub, int h, int w)
 	cub->texture4 = ft_calloc(1, sizeof(t_img));
 	if (!cub->texture4)
 		error_alloc(cub, "Error alloc texture4");
-	cub->texture4->img = mlx_xpm_file_to_image(cub->img->mlx, cub->EA, &w, &h);
+	cub->texture4->img = mlx_xpm_file_to_image(cub->img->mlx, cub->sea, &w, &h);
 	if (!cub->texture4->img)
 		return (error_void("Error texture4->img"));
 	cub->texture4->data_addr = mlx_get_data_addr(cub->texture4->img,
@@ -42,7 +42,7 @@ void	get_texture(t_cub *cub)
 	cub->texture1 = ft_calloc(1, sizeof(t_img));
 	if (!cub->texture1)
 		error_alloc(cub, "Error alloc texture1");
-	cub->texture1->img = mlx_xpm_file_to_image(cub->img->mlx, cub->NO, &w, &h);
+	cub->texture1->img = mlx_xpm_file_to_image(cub->img->mlx, cub->sno, &w, &h);
 	if (!cub->texture1->img)
 		return (error_void("Error texture1->img"));
 	cub->texture1->data_addr = mlx_get_data_addr(cub->texture1->img,
@@ -51,7 +51,7 @@ void	get_texture(t_cub *cub)
 	cub->texture2 = ft_calloc(1, sizeof(t_img));
 	if (!cub->texture2)
 		error_alloc(cub, "Error alloc texture2");
-	cub->texture2->img = mlx_xpm_file_to_image(cub->img->mlx, cub->SO, &w, &h);
+	cub->texture2->img = mlx_xpm_file_to_image(cub->img->mlx, cub->sso, &w, &h);
 	if (!cub->texture2->img)
 		return (error_void("Error texture2->img"));
 	cub->texture2->data_addr = mlx_get_data_addr(cub->texture2->img,

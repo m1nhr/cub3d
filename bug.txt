@@ -1,3 +1,8 @@
+-- remplace les str NO/SO/WE/EA par s_no etc par exemple pour la norme
+
+
+
+
 -probleme inversement 'a' et 'd' selon langle de vue
 - invalid path pour les textures
 

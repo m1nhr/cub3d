@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 04:06:34 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 05:23:25 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:51:06 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,14 +26,14 @@ void	error_alloc(t_cub *cub, char *str)
 
 void	free_cub_value(t_cub *cub)
 {
-	if (cub->NO)
-		free(cub->NO);
-	if (cub->SO)
-		free(cub->SO);
-	if (cub->WE)
-		free(cub->WE);
-	if (cub->EA)
-		free(cub->EA);
+	if (cub->sno)
+		free(cub->sno);
+	if (cub->sso)
+		free(cub->sso);
+	if (cub->swe)
+		free(cub->swe);
+	if (cub->sea)
+		free(cub->sea);
 	if (cub->go_w)
 		free(cub->go_w);
 	if (cub->go_s)
@@ -59,7 +59,6 @@ void	free_img(t_cub *cub, t_img *obj)
 int	close_window(t_cub *cub)
 {
 	ft_putendl_fd("goodbye :)", 1);
-
 	if (cub->texture1)
 		free_img(cub, cub->texture1);
 	if (cub->texture2)
@@ -79,5 +78,6 @@ int	close_window(t_cub *cub)
 		free(cub->img);
 	}
 	free_cub_value(cub);
-	exit(0);
+	free_tab(cub->map);
+	exit (0);
 }

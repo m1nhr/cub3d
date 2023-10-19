@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/19 01:44:48 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:50:44 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,16 @@ void	init_pos(t_cub *cub)
 
 void	init_value(t_cub *cub, t_main *data)
 {
-	cub->map = data->map;
+	cub->map = good_map(cub, data, data->map);
 	cub->colors_ceiling = data->colors_ceiling;
 	cub->colors_floor = data->colors_floor;
 	cub->posx = start_pos(cub->map, 0) + 0.5;
 	cub->posy = start_pos(cub->map, 1) + 0.5;
-	cub->NO = ft_strdup(data->NO);
-	cub->SO = ft_strdup(data->SO);
-	cub->WE = ft_strdup(data->WE);
-	cub->EA = ft_strdup(data->EA);
+	cub->sno = ft_strdup(data->NO);
+	cub->sso = ft_strdup(data->SO);
+	cub->swe = ft_strdup(data->WE);
+	cub->sea = ft_strdup(data->EA);
+	free_textures(data);
 	cub->texture1 = NULL;
 	cub->texture2 = NULL;
 	cub->texture3 = NULL;

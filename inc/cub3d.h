@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/10/19 04:47:12 by tmorikaw          #+#    #+#             */
+/*   Updated: 2023/10/19 04:48:22 by tmorikaw         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef CUB3D_H
 # define CUB3D_H
 
@@ -79,8 +91,6 @@ typedef struct s_main
 typedef struct s_cub
 {
 	char		**map;
-
-	int			mouse_on;
 	double		posx;
 	double		posy;
 	double		dirx;
@@ -104,16 +114,17 @@ typedef struct s_cub
 	int			draw_start;
 	int			draw_end;
 	double		camerax;
-	char		*NO;
-	char		*SO;
-	char		*WE;
-	char		*EA;
+	char		*sno;
+	char		*sso;
+	char		*swe;
+	char		*sea;
 	double		wall_x;
 	int			texx;
 	int			texy;
 	double		tex_pos;
 	double		walk;
 	int			mouse_x;
+	int			mouse_on;
 	int			cam_mouse_right;
 	int			cam_mouse_left;
 	t_bool		*move;
@@ -123,7 +134,6 @@ typedef struct s_cub
 	t_bool		*go_d;
 	t_bool		*cam_right;
 	t_bool		*cam_left;
-	t_textures	t;
 	t_img		*img;
 	t_img		*texture1;
 	t_img		*texture2;
@@ -146,11 +156,9 @@ int				is_not_valid_char(char c);
 void			free_tab(char **tab);
 void			print_tab(char **tab);
 int				longest_len(char **map);
-
 void			check_colors(t_main *data, t_colors colors);
 void			check_colors_str(t_main *data, char **tab);
 int				get_colors(t_main *data, char *str);
-
 void			add_space(char *str, int size);
 int				check_map_str(char *str);
 int				get_textures(t_main *data, char *str);
@@ -194,5 +202,6 @@ int				what_lentab(char **tab);
 double			start_pos(char **tab, int ok);
 void			error_void(char *str);
 float			ft_fabs(float i);
+char			**good_map(t_cub *cub, t_main *data, char **old);
 
 #endif
