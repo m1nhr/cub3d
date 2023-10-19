@@ -6,12 +6,27 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 08:35:31 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 10:28:47 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 01:44:48 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
+void	init_malloc_event_dig(t_cub *cub)
+{
+	cub->cam_left = malloc(sizeof(t_bool));
+	if (!cub->cam_left)
+		error_alloc(cub, "Error alloc cam_left");
+	cub->cam_left->key = 65363;
+	cub->cam_left->ok = FALSE;
+	cub->cam_right = malloc(sizeof(t_bool));
+	if (!cub->cam_right)
+		error_alloc(cub, "Error alloc cam_right");
+	cub->cam_right->key = 65361;
+	cub->cam_right->ok = FALSE;
+	cub->cam_mouse_right = 0;
+	cub->cam_mouse_left = 0;
+}
 
 void	init_malloc_event(t_cub *cub)
 {
@@ -35,18 +50,7 @@ void	init_malloc_event(t_cub *cub)
 		error_alloc(cub, "Error alloc go_d");
 	cub->go_d->key = 100;
 	cub->go_d->ok = FALSE;
-	cub->cam_left = malloc(sizeof(t_bool));
-	if (!cub->cam_left)
-		error_alloc(cub, "Error alloc cam_left");
-	cub->cam_left->key = 65363;
-	cub->cam_left->ok = FALSE;
-	cub->cam_right = malloc(sizeof(t_bool));
-	if (!cub->cam_right)
-		error_alloc(cub, "Error alloc cam_right");
-	cub->cam_right->key = 65361;
-	cub->cam_right->ok = FALSE;
-	cub->cam_mouse_right = 0;
-	cub->cam_mouse_left = 0;
+	init_malloc_event_dig(cub);
 }
 
 void	init_pos_dig(t_cub *cub)

@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 10:23:00 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 02:11:42 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	display_minimap(t_cub *cub, int x, int y)
 			if (i == (int)cub->posy && y_tab == (int)cub->posx)
 				put_x10(cub, x, y, 0xFF0000);
 			else if (cub->map[y_tab][i] && cub->map[y_tab][i] == '1')
-				put_x10(cub, x, y, 0x13C6A2);
+				put_x10(cub, x, y, 0x9933FF);
 			x += 6;
 			i++;
 		}
@@ -56,8 +56,6 @@ int	display_game_frame(t_cub *cub)
 		mlx_mouse_move(cub->img->mlx, cub->img->win, HEIGHT / 2, WIDTH / 2);
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
-	keymap_event(cub);	
-	//fprintf(stderr, "coord>[%f][%f] +  dirx = %f & diry = %f\n", cub->posy, cub->posx, cub->dirx, cub->diry);
-
+	keymap_event(cub);
 	return (0);
 }

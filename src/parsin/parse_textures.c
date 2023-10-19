@@ -6,7 +6,7 @@
 /*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:46:53 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 03:09:13 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/18 03:43:33 by rmarecar         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,31 @@ void	free_textures(t_main *data)
 		free(data->WE);
 }
 
+int	check_textures(t_main *data)
+{
+	if (access(data->NO, R_OK))
+	{
+		perror(data->NO);
+		return (-1);
+	}
+	if (access(data->SO, R_OK))
+	{
+		perror(data->SO);
+		return (-1);
+	}
+	if (access(data->EA, R_OK))
+	{
+		perror(data->EA);
+		return (-1);
+	}
+	if (access(data->WE, R_OK))
+	{
+		perror(data->WE);
+		return (-1);
+	}
+	return (0);
+}
+
 int	init_textures(t_main *data, char **map)
 {
 	int	i;
@@ -33,7 +58,7 @@ int	init_textures(t_main *data, char **map)
 	{
 		if (!get_textures(data, map[i]))
 		{
-			printf("Error: invalid textures\n%s\n", map[i]);
+			printf("Error\nInvalid textures\n%s\n", map[i]);
 			return (0);
 		}
 		i++;
@@ -42,7 +67,7 @@ int	init_textures(t_main *data, char **map)
 	{
 		if (!get_colors(data, map[i]))
 		{
-			printf("Error: invalid colors\n%s\n", map[i]);
+			printf("Error\nInvalid colors\n%s\n", map[i]);
 			return (0);
 		}
 		i++;
