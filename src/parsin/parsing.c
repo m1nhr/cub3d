@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/18 03:43:21 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:37:39 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,15 +124,3 @@ int	parsing(int argc, char *argv[], t_main *data)
 	}
 	return (0);
 }
-
-//void	print_map_info(t_main *data)
-// {
-// 	printf("NO : %s\n", data->textures.NO);
-// 	printf("SO : %s\n", data->textures.SO);
-// 	printf("WE : %s\n", data->textures.WE);
-// 	printf("EA : %s\n", data->textures.EA);
-// 	printf("C : %d, %d, %d\n", data->colors_ceiling.red,
-//data->colors_ceiling.green,data->colors_ceiling.blue);
-// 	printf("C : %d, %d, %d\n", data->colors_floor.red, 
-//data->colors_floor.green,data->colors_floor.blue);
-// }

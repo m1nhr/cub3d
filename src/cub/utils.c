@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 07:31:46 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 07:14:14 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/19 04:41:23 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,4 +59,31 @@ float	ft_fabs(float i)
 	if (i < 0)
 		return (i *= -1);
 	return (i);
+}
+
+char	**good_map(t_cub *cub, t_main *data, char **old)
+{
+	int		i;	
+	char	**nt;
+
+	i = 0;
+	while (old[i])
+		i++;
+	nt = malloc(sizeof(char *) * (i + 1));
+	if (!nt)
+	{
+		free_tab(data->parse_map->map_parse);
+		free(data->parse_map);
+		error_alloc(cub, "good map but you broke malloc :(");
+	}
+	i = 0;
+	while (old[i])
+	{
+		nt[i] = ft_strdup(old[i]);
+		i++;
+	}
+	nt[i] = 0;
+	free_tab(data->parse_map->map_parse);
+	free(data->parse_map);
+	return (nt);
 }
