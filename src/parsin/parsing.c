@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/19 04:37:39 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:23:39 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,6 +120,8 @@ int	parsing(int argc, char *argv[], t_main *data)
 	if (check_textures(data) == -1)
 	{
 		free_textures(data);
+		free_tab(data->parse_map->map_parse);
+		free(data->parse_map);
 		return (-1);
 	}
 	return (0);

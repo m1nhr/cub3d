@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 04:47:12 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/22 09:01:38 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:28:00 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,7 +156,7 @@ int				is_not_valid_char(char c);
 void			free_tab(char **tab);
 void			print_tab(char **tab);
 int				longest_len(char **map);
-void			check_colors(t_main *data, t_colors colors);
+void			check_colors(t_main *data, t_colors colors, char **tab);
 void			check_colors_str(t_main *data, char **tab);
 int				get_colors(t_main *data, char *str);
 void			add_space(char *str, int size);
