@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/21 00:28:53 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/19 04:45:47 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 08:59:41 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +68,10 @@ int	mlx_stuff(t_cub *cub)
 	cub->img->mlx = mlx_init();
 	if (!cub->img->mlx)
 		return (error_ok("Error mlx_init", 1));
-	cub->img->win = mlx_new_window(cub->img->mlx, HEIGHT, WIDTH, "CUB3D");
+	cub->img->win = mlx_new_window(cub->img->mlx, WIDTH, HEIGHT, "CUB3D");
 	if (!cub->img->win)
 		return (error_ok("Error mlx_win", 1));
-	cub->img->img = mlx_new_image(cub->img->mlx, HEIGHT, WIDTH);
+	cub->img->img = mlx_new_image(cub->img->mlx, WIDTH, HEIGHT);
 	cub->img->data_addr = mlx_get_data_addr(cub->img->img, &(cub->img->bpp),
 			&(cub->img->line_size), &(cub->img->endian));
 	return (0);

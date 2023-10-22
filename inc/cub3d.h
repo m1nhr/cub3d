@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 04:47:12 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/19 04:48:22 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:01:38 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,8 @@
 # include <sys/stat.h>
 # include <unistd.h>
 
-# define HEIGHT 750
-# define WIDTH 750
+# define WIDTH 1000
+# define HEIGHT 1000
 # define TRUE 1
 # define FALSE 0
 
