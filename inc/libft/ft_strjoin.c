@@ -6,7 +6,7 @@
 /*   By: keshikuro <keshikuro@student.42.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/11 21:57:02 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/08/18 02:55:16 by keshikuro        ###   ########.fr       */
+/*   Updated: 2023/10/22 12:30:05 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ char	*ft_strjoin(char *s1, char *s2)
 	int		i;
 	int		j;
 
-	if (!s1)
-		return (NULL);
 	i = 0;
 	j = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
@@ -41,4 +39,3 @@ char	*ft_strjoin(char *s1, char *s2)
 	free(s1);
 	return (dest);
 }
-
