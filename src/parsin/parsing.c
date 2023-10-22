@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/17 20:40:20 by marecarraya       #+#    #+#             */
-/*   Updated: 2023/10/22 09:23:39 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 12:33:02 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	find_map_start(char *str)
 	if (j != 6)
 	{
 		printf("\nError\nMissing textures or colors information\n");
-		exit (1);
+		return (-1);
 	}
 	while (str[i] && str[i] != '\n')
 		i++;
@@ -69,7 +69,7 @@ int	check_map_str(char *str)
 
 	j = 0;
 	i = find_map_start(str) - 1;
-	while (str[++i])
+	while (i > 0 && str[++i])
 	{
 		if (str[i] == '\n' && str[i + 1] == '\n')
 			printf("Error\nEmpty line in map\n");
@@ -84,9 +84,9 @@ int	check_map_str(char *str)
 		if (j > 1)
 			return (-1);
 	}
-	if (j == 0)
+	if (j == 0 && i > 0)
 		printf("Error\nNo starting position\n");
-	if (j == 0)
+	if (j == 0 || i < 0)
 		return (-1);
 	return (0);
 }
