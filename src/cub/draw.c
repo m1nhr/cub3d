@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 03:12:37 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 05:22:10 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 12:22:02 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	get_draw_point(t_cub *cub)
 	if (cub->draw_start < 0)
 		cub->draw_start = 0;
 	cub->draw_end = cub->lineheight / 2 + HEIGHT / 2;
-	if (cub->draw_end >= HEIGHT)
+	if (cub->draw_end >= HEIGHT || cub->draw_end < 0)
 		cub->draw_end = HEIGHT - 1;
 }
 
