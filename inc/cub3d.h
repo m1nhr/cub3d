@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 04:47:12 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/22 09:28:00 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:50:52 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ typedef struct s_main
 	t_parse_map	*parse_map;
 	t_colors	colors_floor;
 	t_colors	colors_ceiling;
-	char		*NO;
-	char		*SO;
-	char		*WE;
-	char		*EA;
+	char		*no;
+	char		*so;
+	char		*we;
+	char		*ea;
 }				t_main;
 
 typedef struct s_cub

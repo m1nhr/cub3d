@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 19:00:47 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 03:40:12 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:51:09 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,10 @@ void	init_values(t_main *data)
 	data->parse_map->height = 0;
 	data->parse_map->width = 0;
 	data->parse_map->map_parse = NULL;
-	data->NO = NULL;
-	data->EA = NULL;
-	data->SO = NULL;
-	data->WE = NULL;
+	data->no = NULL;
+	data->ea = NULL;
+	data->so = NULL;
+	data->we = NULL;
 }
 
 int	is_not_valid_char(char c)
