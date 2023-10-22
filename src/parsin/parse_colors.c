@@ -3,36 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   parse_colors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:44:28 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 03:39:03 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:36:38 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../inc/cub3d.h"
 
-void	check_colors(t_main *data, t_colors colors)
+void	check_colors(t_main *data, t_colors colors, char **tab)
 {
-	if (colors.red < 0 || colors.red > 255)
+	if (colors.red < 0 || colors.red > 255 || colors.green < 0
+		|| colors.green > 255 || colors.blue < 0 || colors.blue > 255)
 	{
-		printf("Error\n%d is an invalid color value\n", colors.red);
+		printf("Error\nInvalid color value\n");
+		free_textures(data);
 		free_tab(data->parse_map->map_parse);
 		free(data->parse_map);
-		exit(1);
-	}
-	if (colors.green < 0 || colors.green > 255)
-	{
-		printf("Error\n%d is an invalid color value\n", colors.green);
-		free_tab(data->parse_map->map_parse);
-		free(data->parse_map);
-		exit(1);
-	}
-	if (colors.blue < 0 || colors.blue > 255)
-	{
-		printf("Error\n%d is an invalid color value\n", colors.blue);
-		free_tab(data->parse_map->map_parse);
-		free(data->parse_map);
+		free_tab(tab);
 		exit(1);
 	}
 }
@@ -71,14 +60,14 @@ void	add_colors(t_main *data, char **tab, char c)
 		data->colors_ceiling.red = ft_atoi(tab[0]);
 		data->colors_ceiling.green = ft_atoi(tab[1]);
 		data->colors_ceiling.blue = ft_atoi(tab[2]);
-		check_colors(data, data->colors_ceiling);
+		check_colors(data, data->colors_ceiling, tab);
 	}
 	if (c == 'F')
 	{
 		data->colors_floor.red = ft_atoi(tab[0]);
 		data->colors_floor.green = ft_atoi(tab[1]);
 		data->colors_floor.blue = ft_atoi(tab[2]);
-		check_colors(data, data->colors_floor);
+		check_colors(data, data->colors_floor, tab);
 	}
 }
 

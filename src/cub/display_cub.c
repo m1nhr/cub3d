@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/06 05:00:52 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/19 02:11:42 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:00:13 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	display_game_frame(t_cub *cub)
 		x++;
 	}
 	if (cub->mouse_on == 0)
-		mlx_mouse_move(cub->img->mlx, cub->img->win, HEIGHT / 2, WIDTH / 2);
+		mlx_mouse_move(cub->img->mlx, cub->img->win, WIDTH / 2, HEIGHT / 2);
 	display_minimap(cub, 0, 0);
 	mlx_put_image_to_window(cub->img->mlx, cub->img->win, cub->img->img, 0, 0);
 	keymap_event(cub);

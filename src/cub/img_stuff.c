@@ -6,7 +6,7 @@
 /*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/22 03:21:01 by tmorikaw          #+#    #+#             */
-/*   Updated: 2023/10/18 10:16:51 by tmorikaw         ###   ########.fr       */
+/*   Updated: 2023/10/22 08:07:37 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	put_pixel(t_cub *cub, int x, int y, int color)
 		return ;
 	dest = cub->img->data_addr + (y * cub->img->line_size) + x * (cub->img->bpp
 			/ 8);
-	*(unsigned int *)dest = color;
+	*(int *)dest = color;
 }
 
 void	put_x10(t_cub *cub, int x, int y, int color)

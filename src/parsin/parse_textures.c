@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_textures.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: rmarecar <rmarecar@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tmorikaw <tmorikaw@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:46:53 by rmarecar          #+#    #+#             */
-/*   Updated: 2023/10/18 03:43:33 by rmarecar         ###   ########.fr       */
+/*   Updated: 2023/10/22 09:52:49 by tmorikaw         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,36 @@
 
 void	free_textures(t_main *data)
 {
-	if (data->NO)
-		free(data->NO);
-	if (data->EA)
-		free(data->EA);
-	if (data->SO)
-		free(data->SO);
-	if (data->WE)
-		free(data->WE);
+	if (data->no)
+		free(data->no);
+	if (data->ea)
+		free(data->ea);
+	if (data->so)
+		free(data->so);
+	if (data->we)
+		free(data->we);
 }
 
 int	check_textures(t_main *data)
 {
-	if (access(data->NO, R_OK))
+	if (access(data->no, R_OK))
 	{
-		perror(data->NO);
+		perror(data->no);
 		return (-1);
 	}
-	if (access(data->SO, R_OK))
+	if (access(data->so, R_OK))
 	{
-		perror(data->SO);
+		perror(data->so);
 		return (-1);
 	}
-	if (access(data->EA, R_OK))
+	if (access(data->ea, R_OK))
 	{
-		perror(data->EA);
+		perror(data->ea);
 		return (-1);
 	}
-	if (access(data->WE, R_OK))
+	if (access(data->we, R_OK))
 	{
-		perror(data->WE);
+		perror(data->we);
 		return (-1);
 	}
 	return (0);
@@ -85,7 +85,7 @@ int	get_textures2(t_main *data, char *str, int i)
 		while (str[i] == ' ')
 			i++;
 		s1 = ft_strtrim(&str[i], " ");
-		data->SO = s1;
+		data->so = s1;
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "WE ", 3))
@@ -94,7 +94,7 @@ int	get_textures2(t_main *data, char *str, int i)
 		while (str[i] == ' ')
 			i++;
 		s1 = ft_strtrim(&str[i], " ");
-		data->WE = s1;
+		data->we = s1;
 		return (1);
 	}
 	else
@@ -115,7 +115,7 @@ int	get_textures(t_main *data, char *str)
 		while (str[i] == ' ')
 			i++;
 		s1 = ft_strtrim(&str[i], " ");
-		data->NO = s1;
+		data->no = s1;
 		return (1);
 	}
 	else if (!ft_strncmp(&str[i], "EA ", 3))
@@ -124,7 +124,7 @@ int	get_textures(t_main *data, char *str)
 		while (str[i] == ' ')
 			i++;
 		s1 = ft_strtrim(&str[i], " ");
-		data->EA = s1;
+		data->ea = s1;
 		return (1);
 	}
 	return (get_textures2(data, str, i));
